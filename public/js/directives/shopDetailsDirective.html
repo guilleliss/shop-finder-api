@@ -1,0 +1,28 @@
+<div class="panel" ng-class="isInDatabase ? 'panel-warning' : 'panel-primary'">
+	<div class="panel-heading">
+		{{ info.name }}
+	</div>
+	<div class="panel-body">
+		<div class="shop-photo">
+			<img ng-src="{{info.photoUrl}}" ng-style="imgStyle">
+		</div>
+		<div class="shop-details">
+			<p>{{ info.formatted_address }}</p>
+			<div class="shopDetailsLocation">
+				<span class="label label-success">Lat: {{ info.geometry.location.A | number:4 }}</span>
+				<span class="label label-success">Lng: {{ info.geometry.location.F | number:4 }}</span>
+			</div>
+			<input type="hidden" value="{{ info.place_id }}">
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-sm" ng-class="isInDatabase ? '' : 'btn-primary' " ng-click="internalSaveShop(info)" ng-disabled="isInDatabase">
+				<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+			</button>
+			<button type="button" class="btn btn-default btn-sm" ng-click="getShopDetailsModal(info)">
+				<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> View
+			</button>
+		</div>
+	</div>
+</div>

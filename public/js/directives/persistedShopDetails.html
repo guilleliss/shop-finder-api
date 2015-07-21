@@ -1,0 +1,28 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		{{ info.name }}
+	</div>
+	<div class="panel-body">
+		<div class="shop-photo">
+			<img ng-src="{{info.photos[0]}}" ng-style="imgStyle">
+		</div>
+		<div class="shop-details">
+			<p>{{ info.address }}</p>
+			<div class="shopDetailsLocation">
+				<span class="label label-success">Lat: {{ info.geolocation.lat | number:4 }}</span>
+				<span class="label label-success">Lng: {{ info.geolocation.lng | number:4 }}</span>
+			</div>
+			<input type="hidden" value="{{ info._id }}">
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-danger btn-sm"  ng-click="internalDeleteShop(info._id)">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
+			</button>
+			<button type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> View
+			</button>
+		</div>
+	</div>
+</div>

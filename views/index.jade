@@ -1,0 +1,33 @@
+extends layout
+
+block body
+	div.container(ng-controller='MainController')
+		div.row
+			div.col-xs-12.col-sm-6.col-sd-offset-6.col-md-offset-9.col-md-3.col-lg-3.col-lg-offset-9.alerts-box
+				<alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+		
+		div(ng-view)
+
+	//- Google Places API
+	script(src='https://maps.googleapis.com/maps/api/js?libraries=places')
+
+	//- Angular native files
+	script(src='lib/angular/angular.min.js')
+	script(src='lib/angular-route/angular-route.min.js')
+	script(src='lib/angular-animate/angular-animate.min.js')
+	script(src='lib/angularjs-google-places/src/angularjs-google-places.js')
+	
+	//- Angular-Bootstrap files
+	//- script(src='lib/angular-bootstrap/ui-bootstrap.min.js')
+	script(src='lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+
+	//- Angular app files
+	script(src='js/app.js')
+	script(src='js/services/GPService.js')
+	script(src='js/services/shopsService.js')
+	script(src='js/services/libraryService.js')
+	script(src='js/controllers/controllers.js')
+	script(src='js/directives/directives.js')
+
+	//- script(src='js/filters.js')
+	script(src='js/scripts.js')

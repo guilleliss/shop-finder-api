@@ -1,0 +1,36 @@
+doctype html
+html(ng-app="shopApp")
+	head
+		meta(charset='utf8')
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		base(href='/')
+		title Store Finder Dashboard 
+		link(rel='stylesheet', href='/css/style.css')
+		link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap-material.min.css')
+	body
+		nav.navbar.navbar-inverse.navbar-fixed-top
+			div.container-fluid
+
+				div.navbar-header
+					button.navbar-toggle.collapsed(type="button", ng-init="navCollapsed = true", ng-click="navCollapsed = !navCollapsed")
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a(href="/",class="navbar-brand") Shop Finder
+				div#top-bar.collapse.navbar-collapse.navbar-responsive-collapse(collapse="navCollapsed")
+					ul.nav.navbar-nav
+						li: a(href="/", ng-click="navCollapsed = true") Shops 
+						li: a(href="/googleplaces", ng-click="navCollapsed = true") Google Places
+						li: a(href="/apicheck", ng-click="navCollapsed = true") API Check
+
+					ul.nav.navbar-nav.navbar-right
+						li.dropdown(dropdown)
+							a.dropdown-toggle(href, dropdown-toggle)
+								span.glyphicon.glyphicon-play-circle(aria-hidden="true")
+								|  Access
+							ul.dropdown-menu
+								li: a(href="/login") Logout
+								li: a(href="/login") Profile
+
+		block body
