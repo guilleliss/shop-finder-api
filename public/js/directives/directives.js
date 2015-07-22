@@ -54,73 +54,96 @@ app.directive('shopDetails', [
 					}
 				}
 
-			}, 200);
+			}, 400);
 
 			$scope.internalSaveShop = function(shopInfo) {
-				var shopToSave = {
-					name: shopInfo.name,
-					address: shopInfo.formatted_address,
-					photos: [shopInfo.photoUrl],
-					location: {
-						lat: shopInfo.geometry.location.A,	
-						lng: shopInfo.geometry.location.F,	
-					},
-					source: "Google",
-					source_id: shopInfo.place_id
-				};
-
 				$scope.shopExists({ infoId: $scope.info.place_id })
 					.then(function (response) {
 						$scope.isInDatabase = response.data;
 						if (!$scope.isInDatabase) {
-							$scope.saveShop({shopToSave: shopToSave})
-								.then(function(response){
-									$scope.isInDatabase = true;
+							$scope.getShopDetails({
+								sourceId: shopInfo.place_id
+							}).then(function(response) {
+								shopToShow = response;
+
+								var shopPhotos = [];
+								if (shopToShow.photos) {
+									for (var i = 0; i < shopToShow.photos.length; i++) {
+										shopPhotos.push(shopToShow.photos[i].getUrl({maxHeight: '500'})); 
+									};
+								};
+
+								opening_hours = {};
+								if(shopToShow.opening_hours) {
+									opening_hours = { 
+											periods: shopToShow.opening_hours.periods,
+											weekday_text: shopToShow.opening_hours.weekday_text
+										};
+								}
+
+								var shopToSave = {
+									name: shopToShow.name,
+									address: shopToShow.formatted_address,
+									phone_number: shopToShow.international_phone_number,
+									opening_hours: opening_hours,
+									photos: shopPhotos,
+									geolocation: {
+										lat: shopToShow.geometry.location.A,	
+										lng: shopToShow.geometry.location.F,	
+									},
+									source: "Google",
+									source_id: shopToShow.place_id,
+									rating: shopToShow.rating,
+									price_level: shopToShow.price_level,
+									website: shopToShow.website
+								};
+
+								$scope.saveShop({shopToSave: shopToSave})
+									.then(function(response){
+										$scope.isInDatabase = true;
+								});
+
 							});
 						};
 				});
-
-			}
+			};
 
 			$scope.getShopDetailsModal = function(shopInfo) {
-				// var shopToShow = shopInfo;
-				// $scope.getShopDetails({
-				// 	sourceId: shopInfo.place_id
-				// }).then(function(response) {
-				// 	shopToShow = response;
+				var shopToShow = shopInfo;
+				$scope.getShopDetails({
+					sourceId: shopInfo.place_id
+				}).then(function(response) {
+					shopToShow = response;
 
-				// 	var shopPhotos = [];
-				// 	if (shopToShow.photos) {
-				// 		for (var i = 0; i < shopToShow.photos.length; i++) {
-				// 			shopPhotos.push(shopToShow.photos[i].getUrl({maxHeight: '400'})); 
-				// 		};
-				// 	};
+					var shopPhotos = [];
+					if (shopToShow.photos) {
+						for (var i = 0; i < shopToShow.photos.length; i++) {
+							shopPhotos.push(shopToShow.photos[i].getUrl({maxHeight: '400'})); 
+						};
+					};
 
-				// 	shopToShow.shopPhotos = shopPhotos;
+					shopToShow.photos = shopPhotos;
 
+					var modalInstance = $modal.open({
+						animation: true,
+						templateUrl: 'js/directives/shopDetailsModal.html',
+						controller: 'ModalInstanceCtrl',
+						scope: $scope,
+						backdrop: true,
+						// size: size,
+						resolve: {
+							shopInfo: function () {
+					  			return shopToShow;
+							}
+						}
+					});
 
-				// 	var modalInstance = $modal.open({
-				// 		animation: true,
-				// 		templateUrl: 'js/directives/shopDetailsModal.html',
-				// 		controller: 'ModalInstanceCtrl',
-				// 		scope: $scope,
-				// 		backdrop: true,
-				// 		// size: size,
-				// 		resolve: {
-				// 			shopInfo: function () {
-				// 	  			return shopToShow;
-				// 			}
-				// 		}
-				// 	});
-
-				// 	modalInstance.result.then(function () {
-				// 	}, function () {
-				// 		console.log('modal dismissed');
-				// 		// $log.info('Modal dismissed at: ' + new Date());
-				// 	});
-
-			// });
-
+					modalInstance.result.then(function () {
+					}, function () {
+						console.log('modal dismissed');
+						// $log.info('Modal dismissed at: ' + new Date());
+					});
+				});
 			};
 
 		}
@@ -129,7 +152,8 @@ app.directive('shopDetails', [
 
 app.directive('persistedShopDetails', [
 	'$timeout',
-	function ($timeout) {
+	'$modal',
+	function ($timeout, $modal) {
 	
 	return {
 		restrict: 'E',
@@ -172,11 +196,33 @@ app.directive('persistedShopDetails', [
 					}
 				}
 
-			}, 200);
+			}, 400);
 
 			$scope.internalDeleteShop = function(shopId) {
 				$scope.deleteShop({id: shopId});
-			}
+			};
+
+			$scope.getShopDetailsModal = function(shopInfo) {
+				var shopToShow = shopInfo;
+				var modalInstance = $modal.open({
+					animation: true,
+					templateUrl: 'js/directives/shopDetailsModal.html',
+					controller: 'ModalInstanceCtrl',
+					scope: $scope,
+					backdrop: true,
+					resolve: {
+						shopInfo: function () {
+				  			return shopToShow;
+						}
+					}
+				});
+
+				modalInstance.result.then(function () {
+				}, function () {
+					console.log('modal dismissed');
+				});
+			};
+
 		}
 	};
 }]);

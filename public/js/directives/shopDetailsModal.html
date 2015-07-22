@@ -2,18 +2,54 @@
 	<h3 class="modal-title">{{ shopInfo.name }}</h3>
 </div>
 <div class="modal-body">
-  <div style="height: 400px">
-    <carousel interval="3000">
-      <slide ng-repeat="slide in slides">
-        <img ng-src="{{slide}}" style="margin:auto;">
-  		<div class="carousel-caption">
-			<h4>Slide</h4>
-			<p></p>
-		</div>
-      </slide>
-    </carousel>
-  </div>	
+	<div>
+		<span class="shop-details-title">Address:</span> {{ shopInfo.formatted_address }}
+	</div>
+	<div>
+		<span class="shop-details-title">Phone number:</span>
+		<span ng-show="shopInfo.international_phone_number">{{ shopInfo.international_phone_number }}</span>
+		<span ng-hide="shopInfo.international_phone_number">Not available</span>
+	</div>
+	<div>
+		<span class="shop-details-title">Website:</span>
+		<span ng-show="shopInfo.website">{{ shopInfo.website }}</span>
+		<span ng-hide="shopInfo.website">Not available</span>
+	</div>
+	<div>
+		<span class="shop-details-title">Price level:</span>
+		<span ng-show="shopInfo.price_level">
+			<rating readonly="true" ng-init="y = shopInfo.price_level" ng-model="y" state-on="'glyphicon-euro'" state-off="'glyphicon-minus'"></rating>({{ shopInfo.price_level }})
+		</span>
+		<span ng-hide="shopInfo.price_level">Not available</span>
+	</div>
+	<div>
+		<span class="shop-details-title">Rating:</span>
+		<span ng-show="shopInfo.rating">
+			<rating class="shop-rating" readonly="true" ng-init="x = shopInfo.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating>({{ shopInfo.rating }})
+		</span>
+		<span ng-hide="shopInfo.rating">Not available</span>
+	</div>
+
+	<div>
+	<accordion class="shop-details-accordion" close-others="true">
+		<accordion-group heading="Opening hours" ng-show="shopInfo.opening_hours">
+			<div ng-repeat="period in shopInfo.opening_hours.weekday_text">
+				<span>{{ period }}</span>
+			</div>
+		</accordion-group>
+		<accordion-group heading="Gallery" is-open="">
+			<div class="carousel-container">
+				<div class="shop-detail-gallery" ng-repeat="pic in shopInfo.photos">
+					<img ng-src="{{pic}}">
+				</div>
+			</div>	
+		</accordion-group>
+	</accordion>
+	</div>
+
 </div>
+
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()">Close</button>
+	<!-- <button class="btn btn-primary" ng-click="ok()">Save</button> -->
+	<button class="btn btn-default" ng-click="ok()">Close</button>
 </div>

@@ -26,7 +26,7 @@ var Shop = new Schema({
 	description: String,
 	address: String,
 	phone_number: String,
-	open_time: String,
+	opening_hours: Object,
 	website: String,
 	photos: Array,
 	geolocation: Object,
@@ -36,7 +36,9 @@ var Shop = new Schema({
 		type: String, 
 		unique: true,
 		dropDups: true
-    }
+	},
+	rating: Number,
+	price_level: Number
 });
 
 var User = new Schema({

@@ -8,7 +8,64 @@ a {
 	color: #00B7FF;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+
+.carousel, .carousel-inner {
+	height: 100%;
+}
+
+.carousel-container {
+	height: 172px;
+	/*height: 300px;*/
+	max-width: 492px;
+	margin: 0px auto 0px;
+	overflow: scroll;
+	border: 1px solid #DDD;
+	padding: 0px 5px 10px 5px;
+	position: relative;	
+}
+ 
+.shop-rating {
+	color:#E0CA3C;
+}
+
+.shop-details-accordion {
+	margin-top: 20px;
+	display: block;
+}
+
+.shop-detail-gallery {
+	width: 150px;
+	height: 150px;
+	margin: 10px 5px 0 5px;
+	display: inline-block;
+}
+
+.shop-detail-gallery img {
+	width: 100%;
+	height: 100%;
+	transition: all 0.3s;
+}
+
+.shop-detail-gallery img:hover {
+	/*position: absolute;*/
+	/*width: 472px;*/
+	/*height: auto;*/
+	/*top: 0;*/
+	/*left: 0;*/
+	/*transform: scale(1.2);*/
+}
+
+span.shop-details-title {
+	font-weight: bold;
+}
+
+.shop-details-hours {
+	display: inline-block;
+	vertical-align: top;
+}
 
 .shop-col .panel-body {
 	min-height: 360px;

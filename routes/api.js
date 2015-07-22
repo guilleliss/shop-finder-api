@@ -29,13 +29,15 @@ router.post('/shops', function(req, res) {
 		description: req.body.description,
 		address: req.body.address,
 		phone_number: req.body.phone_number,
-		open_time: req.body.open_time,
+		opening_hours: req.body.opening_hours,
 		website: req.body.website,
 		photos: req.body.photos,
-		geolocation: req.body.location,
+		geolocation: req.body.geolocation,
 		hidden: false,
 		source: req.body.source,
-		source_id: req.body.source_id
+		source_id: req.body.source_id,
+		rating: req.body.rating,
+		price_level: req.body.price_level,
 	});
 
 	newShop.save(function(err, todo) {
