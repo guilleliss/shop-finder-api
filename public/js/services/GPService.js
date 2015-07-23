@@ -4,19 +4,20 @@ app.factory('GPService', [
 	'$q', 
 	function(ngGPlacesAPI, shopsService, $q) {
 
+	var searchService = new google.maps.places.PlacesService(document.querySelector('#map'));
+
 	this.getShops = function(gprequest) {
-		// var searchService = new google.maps.places.PlacesService(document.querySelector('#map'));
 		
 		// var res = {};
-		// searchService.nearbySearch(gprequest, function(data){
-		// 	console.log(data);
+		// return searchService.radarSearch(gprequest, function(data, status) {
+		// 	if (status != google.maps.places.PlacesServiceStatus.OK) {
+		// 		console.log(status);
+		// 		return;
+		// 	}
+		// 	// console.log(data);
 		// 	res = data;	
-			// for (var i = 0; i < 10; i++) {
-			// 	var detailsReq = { placeId: data[i].place_id };
-			// 	searchService.getDetails(detailsReq, function(details) {
-			// 		console.log(details.name);
-			// 	});
-			// };
+
+		// 	return data;
 		// });
 
 		console.log(gprequest);
@@ -33,51 +34,10 @@ app.factory('GPService', [
 					data[i].photos.length > 0) {
 					data[i].photoUrl = data[i].photos[0].getUrl({maxHeight: '400'});
 				}
-
-				/* Check if the store is already in database */
-				// data[i].inDatabase = false;
-				// shopsService.exists(data[i].place_id)
-				// 	.success(function(shopExists) {
-				// 		if(shopExists) {
-				// 			console.log(i);
-				// 			data[i].inDatabase = true;
-				// 		}
-				// 	})
-				// 	.error(function(err) {
-				// 		console.log(err);
-				// 	});
-				// console.log(data[i].inDatabase);
 			};
 
 			return data;
 		});
-
-		// var promises = [];
-		// var locationDetails = [];
-
-		// ngGPlacesAPI.radarSearch({
-		// 	"location": gprequest.location, 
-		// 	"keyword": gprequest.keyword,
-		// 	"radius": gprequest.radius
-		// }).then(function(data) {
-		// 	// for (var i = 0; i < 20; i++) {
-		// 	 angular.forEach(data, function(result) {
-		// 	 	promises.push(ngGPlacesAPI.placeDetails({'placeId': result.place_id}).then(function(details) {
-		// 			// console.log(details.name);
-		// 			locationDetails.push(details);
-		// 			// return details;
-		// 		}));	
-		// 		// promises.push(deferred.promise); 
-
-		// 	});
-		// });
-
-		// console.log(promises);
-
-		// return $q.all(promises).then(function() {
-		// 	// console.log(locationDetails);
-		// 	return locationDetails;
-		// });
 	};
 
 	this.getShopDetails = function(sourceId) {
@@ -86,7 +46,6 @@ app.factory('GPService', [
 				return details;
 			});
 	};
-
 
 	return {
 		getShops: this.getShops,

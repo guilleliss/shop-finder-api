@@ -133,11 +133,12 @@ app.controller('GPController', [
 		keyword: 'tapas in madrid'
 	};
 
-	// $scope.gpShops = GPService.getShops(gprequest);
-
 	GPService.getShops(gprequest).then(function(data) {
 		$scope.gpShops = data;
 	});
+
+	// $scope.gpShops = GPService.getShops(gprequest);
+	// console.log($scope.gpShops);
 
 	$scope.search = function(searchData) {
 		console.log(searchData);
@@ -151,7 +152,7 @@ app.controller('GPController', [
 			GPService.getShops(gprequest).then(function(data) {
 				$scope.addAlert('success', data.length + ' shops found');
 				$scope.gpShops = data;
-			});			
+			});
 		}
 	}
 

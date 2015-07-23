@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 	<div>
-		<span class="shop-details-title">Address:</span> {{ shopInfo.formatted_address }}
+		<span class="shop-details-title">Address:</span> {{ shopInfo.formatted_address }} {{ shopInfo.address }}
 	</div>
 	<div>
 		<span class="shop-details-title">Phone number:</span>
@@ -39,7 +39,7 @@
 		</accordion-group>
 		<accordion-group heading="Gallery" is-open="">
 			<div class="carousel-container">
-				<div class="shop-detail-gallery" ng-repeat="pic in shopInfo.photos">
+				<div class="shop-detail-gallery" ng-repeat="pic in shopInfo.photoUrls">
 					<img ng-src="{{pic}}">
 				</div>
 			</div>	
