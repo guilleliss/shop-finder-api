@@ -40,7 +40,7 @@ app.directive('shopDetails', [
 								};
 							};
 
-							$scope.info.photoUrls = shopPhotosUrls;
+							$scope.info.photos = shopPhotosUrls;
 							console.log("details: " + $scope.info.name);
 							
 							dataWasRetrieved = true;
