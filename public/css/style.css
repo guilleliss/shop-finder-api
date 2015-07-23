@@ -16,6 +16,19 @@ a {
 	height: 100%;
 }
 
+.modal-header {
+	background: #2196f3;
+	/*background: #4caf50;*/
+}
+
+.modal-header .modal-title {
+	color: white;
+}
+
+.modal-footer {
+	background: #f5f5f5;
+}
+
 .carousel-container {
 	height: 172px;
 	/*height: 300px;*/
