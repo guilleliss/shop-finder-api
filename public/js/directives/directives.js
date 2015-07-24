@@ -1,7 +1,6 @@
 app.directive('shopDetails', [
-	'$timeout',
 	'$modal',
-	function ($timeout, $modal) {
+	function ($modal) {
 	
 	return {
 		restrict: 'E',
@@ -49,42 +48,6 @@ app.directive('shopDetails', [
 
 					});
 			}
-
-			/* Crop picture to biggest centered square */
-			$timeout(function() {
-				var imgTag = angular.element(element[0].querySelector('.shop-photo img'))[0];
-				var containerTag = angular.element(element[0].querySelector('.shop-photo'))[0];
-				
-				var imgHeight = imgTag.offsetHeight;
-				var imgWidth = imgTag.offsetWidth;
-				var conHeight = containerTag.offsetHeight;
-				var conWidth = containerTag.offsetWidth;
-				
-				$scope.imgStyle = {};
-				
-				if(imgHeight > 0 && imgWidth > 0) {
-					if(imgHeight == imgWidth) {
-						$scope.imgStyle = {
-								height: conHeight + 'px',
-								width: conWidth + 'px',
-							};
-						
-					} else if(imgHeight > imgWidth) {
-						var gap = (imgHeight/imgWidth*conWidth - conHeight)/2;
-						$scope.imgStyle = {
-								'margin-top': -gap + 'px',
-								width: conWidth + 'px',
-							};
-					} else if(imgHeight < imgWidth) {
-						var gap = (conHeight/imgHeight*imgWidth - conWidth)/2;
-						$scope.imgStyle = {
-								'margin-left': -gap + 'px',
-								height: conHeight + 'px',
-							};
-					}
-				}
-
-			}, 400);
 			
 			/* Bring shop details if not yet, and saves them to API */
 			$scope.internalSaveShop = function(shopInfo) {
@@ -166,9 +129,8 @@ app.directive('shopDetails', [
 }]);
 
 app.directive('persistedShopDetails', [
-	'$timeout',
 	'$modal',
-	function ($timeout, $modal) {
+	function ($modal) {
 	
 	return {
 		restrict: 'E',
@@ -178,40 +140,8 @@ app.directive('persistedShopDetails', [
 		},
 		templateUrl: 'js/directives/persistedShopDetails.html',
 		link: function ($scope, element, attrs) {
-			$timeout(function() {
-				var imgTag = angular.element(element[0].querySelector('.shop-photo img'))[0];
-				var containerTag = angular.element(element[0].querySelector('.shop-photo'))[0];
-				
-				var imgHeight = imgTag.offsetHeight;
-				var imgWidth = imgTag.offsetWidth;
-				var conHeight = containerTag.offsetHeight;
-				var conWidth = containerTag.offsetWidth;
-				
-				$scope.imgStyle = {};
-				
-				if(imgHeight > 0 && imgWidth > 0) {
-					if(imgHeight == imgWidth) {
-						$scope.imgStyle = {
-								height: conHeight + 'px',
-								width: conWidth + 'px',
-							};
-						
-					} else if(imgHeight > imgWidth) {
-						var gap = (imgHeight/imgWidth*conWidth - conHeight)/2;
-						$scope.imgStyle = {
-								'margin-top': -gap + 'px',
-								width: conWidth + 'px',
-							};
-					} else if(imgHeight < imgWidth) {
-						var gap = (conHeight/imgHeight*imgWidth - conWidth)/2;
-						$scope.imgStyle = {
-								'margin-left': -gap + 'px',
-								height: conHeight + 'px',
-							};
-					}
-				}
 
-			}, 400);
+			$scope.info.photoUrl = $scope.info.photos[0];
 
 			$scope.internalDeleteShop = function(shopId) {
 				$scope.deleteShop({id: shopId});

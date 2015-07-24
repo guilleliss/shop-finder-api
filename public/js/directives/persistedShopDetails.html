@@ -3,9 +3,7 @@
 		{{ info.name }}
 	</div>
 	<div class="panel-body">
-		<div class="shop-photo">
-			<img ng-src="{{info.photos[0]}}" ng-style="imgStyle">
-		</div>
+		<shop-picture-directive srcphoto="info"></shop-picture-directive>
 		<div class="shop-details">
 			<p>{{ info.address }}</p>
 			<div class="shopDetailsLocation">
