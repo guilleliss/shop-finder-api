@@ -24,7 +24,7 @@ app.directive('persistedShopDetails', [
 				var modalInstance = $modal.open({
 					animation: true,
 					templateUrl: 'js/directives/shopDetailsModal.html',
-					controller: 'ModalInstanceCtrl',
+					controller: 'ModalInstanceController',
 					scope: $scope,
 					backdrop: true,
 					resolve: {
