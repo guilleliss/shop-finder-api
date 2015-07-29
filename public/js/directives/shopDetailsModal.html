@@ -29,7 +29,10 @@
 		</span>
 		<span ng-hide="shopInfo.rating">Not available</span>
 	</div>
-
+	<div ng-show="shopInfo.reviews_count">
+		<span class="shop-details-title">Reviews:</span>
+		<span>{{ shopInfo.reviews_count }}</span>
+	</div>
 	<div>
 	<accordion class="shop-details-accordion" close-others="true">
 		<accordion-group heading="Opening hours" ng-show="shopInfo.opening_hours">

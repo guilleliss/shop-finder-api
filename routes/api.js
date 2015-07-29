@@ -3,20 +3,16 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Shop = mongoose.model('Shop');
+var Review = mongoose.model('Review');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the api' });
+	res.json({ message: 'Welcome to the api' });
 });
 
 router.get('/shops', function(req, res) {
 
-	// Shop.remove({}, function(err) { 
-	// 	console.log('collection removed') 
-	// });
-
 	Shop.find({
-		// boolean: false
 	}, function (err, data) {
 		if (err) return console.error(err);
 		res.json(data);
@@ -24,6 +20,13 @@ router.get('/shops', function(req, res) {
 });
 
 router.post('/shops', function(req, res) {
+	var reviews = req.body.reviews;
+	var reviews_count = 0;
+
+	if(reviews) {
+		reviews_count = reviews.length;
+	}
+
 	var newShop = new Shop({
 		name: req.body.name,
 		description: req.body.description,
@@ -38,11 +41,29 @@ router.post('/shops', function(req, res) {
 		source_id: req.body.source_id,
 		rating: req.body.rating,
 		price_level: req.body.price_level,
+		reviews_count: reviews_count
 	});
 
-	newShop.save(function(err, todo) {
-		if (err) res.send(err);
-		res.json(todo);
+
+	newShop.save(function(err, shop) {
+		if (err) res.send(shop);
+
+		if(reviews) {		
+			for (var i = 0; i < reviews_count; i++) {
+				var newReview = new Review({
+					shop_id: shop._id,
+					rating: reviews[i].rating,
+					text: reviews[i].text,
+					time: reviews[i].time
+				});
+
+				newReview.save(function(err, review) {
+					if (err) res.send(review);
+				});
+			};
+		};
+
+		res.json(shop);
 	});	
 });
 
@@ -50,6 +71,23 @@ router.get('/shops/:shop_id', function(req, res) {
 	Shop.findById(
 		req.params.shop_id, 
 		function (err, data) {
+			if (err) return console.error(err);
+			res.json(data);
+	});	
+});
+
+router.get('/reviews', function(req, res) {
+	Review.find({
+	}, function (err, data) {
+		if (err) return console.error(err);
+		res.json(data);
+	});	
+});
+
+router.get('/shops/:shop_id/reviews', function(req, res) {
+	Review.find({
+		shop_id: req.params.shop_id 
+	}, function (err, data) {
 			if (err) return console.error(err);
 			res.json(data);
 	});	
@@ -70,64 +108,29 @@ router.delete('/shops/:shop_id', function(req, res) {
 		_id: req.params.shop_id
 	}, function (err, data) {
 		if (err) res.send(err);
-			res.json(data);
+
+		Review.remove({
+			shop_id: req.params.shop_id
+		}, function (err, data) {
+			if (err) res.send(err);
+				res.json(data);
+		});
+
+		res.json(data);
 	});
 });
 
+router.get('/removeall', function(req, res) {
+	Shop.remove({}, function(err) { 
+		console.log('collection removed') 
+	});
+	Review.remove({}, function(err) { 
+		console.log('collection removed') 
+	});
+});
 
 /* TODO: Remove all from here */
 var GooglePlaces = require('google-places');
 var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
-
-router.get('/populate/:keyword', function(req, res) {
-	places.search({keyword: req.params.keyword, location: [40.414142,-3.703738], radius: 500}, function(err, response) {
-		if(err) { console.log(err); return; }
-		
-		for (i = 0; i < response.results.length; i++) { 
-
-			var shopPhotos = [];
-			if(response.results[i].photos) {
-				
-				// places.details({placeid: response.results[i].place_id}, function(err, response) {
-				// 	if(err) { console.log(err); return; }
-
-				// 	for (j = 0; j < response.result.photos.length; j++) { 
-				// 		places.photo({photoreference: response.result.photos[j].photo_reference, maxwidth: 400}, function(err, response) {
-				// 			if(err) { console.log(err); return; }
-				// 			shopPhotos.push(response);
-				// 		});
-				// 	}
-				// });
-
-				shopPhotos.push(buildPhotoUrl(response.results[i].photos[0].photo_reference, 400));
-			}
-
-
-			var newShop = new Shop({
-				name: response.results[i].name,
-				address: response.results[i].vicinity,
-				geolocation: response.results[i].geometry.location,
-				hidden: false,
-				source: "Google",
-				source_id: response.results[i].place_id,
-				photos: shopPhotos
-			});
-
-			newShop.save(function(err, shop) {
-				if (err) res.send(err);
-				console.log(shop);
-			});	
-		}
-
-
-		res.json(response.results);
-	});
-});
-
-function buildPhotoUrl (reference, width) {
-	var apiKey = "AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0";
-	var baseUrl = "https://maps.googleapis.com/maps/api/place/photo?"
-	return baseUrl + "photoreference=" + reference + "&key=" + apiKey + "&maxwidth=" + width;
-}
 
 module.exports = router;

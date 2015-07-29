@@ -7,8 +7,8 @@
 		<div class="shop-details">
 			<p>{{ info.formatted_address }}</p>
 			<div class="shopDetailsLocation">
-				<span class="label label-success">Lat: {{ info.geometry.location.A | number:4 }}</span>
-				<span class="label label-success">Lng: {{ info.geometry.location.F | number:4 }}</span>
+				<span class="label label-success">Lat: {{ info.geometry.location.G | number:4 }}</span>
+				<span class="label label-success">Lng: {{ info.geometry.location.K | number:4 }}</span>
 			</div>
 			<input type="hidden" value="{{ info.place_id }}">
 		</div>

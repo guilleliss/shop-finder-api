@@ -38,7 +38,15 @@ var Shop = new Schema({
 		dropDups: true
 	},
 	rating: Number,
-	price_level: Number
+	price_level: Number,
+	reviews_count: Number
+});
+
+var Review = new Schema({
+	rating: Number,
+	time: Number,
+	text: String,
+	shop_id: String
 });
 
 var User = new Schema({
@@ -49,5 +57,6 @@ var User = new Schema({
 });
 
 mongoose.model('Shop', Shop);
+mongoose.model('Review', Review);
 
 mongoose.connect(mongourl);

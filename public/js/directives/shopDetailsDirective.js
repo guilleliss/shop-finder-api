@@ -24,6 +24,12 @@ app.directive('shopDetails', [
 
 			/* Get the full version of the shop only if we haven't before */
 			$scope.internalGetShopDetails = function() {
+				if (dataWasRetrieved) {
+					return new Promise(
+						function(resolve, reject) {
+							resolve("data already retrieved");
+						});
+				};
 				return new Promise(
 					function(resolve, reject) {
 
@@ -40,8 +46,7 @@ app.directive('shopDetails', [
 							};
 
 							$scope.info.photos = shopPhotosUrls;
-							console.log("details: " + $scope.info.name);
-							
+
 							dataWasRetrieved = true;
 							resolve("done");
 						});
@@ -57,10 +62,10 @@ app.directive('shopDetails', [
 						if (!$scope.isInDatabase) {
 							$scope.internalGetShopDetails().then(function(data) {
 
-								shopToShow = $scope.info;
+								var shopToShow = $scope.info;
 
 								/* Set default fields */
-								opening_hours = {};
+								var opening_hours = {};
 								if(shopToShow.opening_hours) {
 									opening_hours = { 
 											periods: shopToShow.opening_hours.periods,
@@ -76,14 +81,15 @@ app.directive('shopDetails', [
 									opening_hours: opening_hours,
 									photos: shopToShow.photos,
 									geolocation: {
-										lat: shopToShow.geometry.location.A,	
-										lng: shopToShow.geometry.location.F,	
+										lat: shopToShow.geometry.location.G,	
+										lng: shopToShow.geometry.location.K,	
 									},
 									source: "Google",
 									source_id: shopToShow.place_id,
 									rating: shopToShow.rating,
 									price_level: shopToShow.price_level,
-									website: shopToShow.website
+									website: shopToShow.website,
+									reviews: shopToShow.reviews
 								};
 
 								/* Save the data */
