@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Shop = mongoose.model('Shop');
 var Review = mongoose.model('Review');
 
-var geohash = require('ngeohash');
+var ngeohash = require('ngeohash');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -30,7 +30,7 @@ router.post('/shops', function(req, res) {
 		reviews_count = reviews.length;
 	}
 
-	geohash = encodeCoords(req.body.geolocation);
+	var geohash = encodeCoords(req.body.geolocation);
 
 	var newShop = new Shop({
 		name: req.body.name,
@@ -54,7 +54,10 @@ router.post('/shops', function(req, res) {
 
 
 	newShop.save(function(err, shop) {
-		if (err) res.send(shop);
+		if (err) {
+			console.log("error:" + err);
+			res.send(err);
+		}
 
 		/* If the shop brings reviews, we save each */
 		if(reviews) {		
@@ -67,7 +70,10 @@ router.post('/shops', function(req, res) {
 				});
 
 				newReview.save(function(err, review) {
-					if (err) res.send(review);
+					if (err) {
+						console.log("error:" + err);
+						res.send(err);
+					}
 				});
 			};
 		};
@@ -150,7 +156,7 @@ router.get('/removeall', function(req, res) {
  * with lan and lon parameters.
  */
 function encodeCoords(location) {
-	return geohash.encode(location['lat'], location['lng']);
+	return ngeohash.encode(location['lat'], location['lng']);
 }
 
 /* TODO: Remove all from here */
