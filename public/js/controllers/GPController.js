@@ -3,7 +3,7 @@ app.controller('GPController', [
 	'ngGPlacesAPI', 
 	'GPService', 
 	'shopsService',
-	function($scope, ngGPlacesAPI, GPService, shopsService, libraryService) {
+	function($scope, ngGPlacesAPI, GPService, shopsService) {
 
 	var location = {
 			lat: 40.414142,
