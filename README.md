@@ -14,6 +14,13 @@ Requires [mongoDB](https://www.mongodb.org/).
 
 Then point the browser to `http://localhost:3000`.
 
+## Test
+
+Only API tests at the moment
+
+	$ cd path/to/proyect/
+	$ npm test
+
 ## Improvements
 
 * Add authentication
