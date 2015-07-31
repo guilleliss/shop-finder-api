@@ -2,14 +2,11 @@ var should = require('chai').should();
 var expect = require('chai').expect;
 var supertest = require('supertest');
 var api = supertest('http://localhost:3000/api');
-var mongoose = require("mongoose");
 
 var shop1;
 
 describe('Shop', function () {
 	before(function(done) {
-		mongoose.connect('mongodb://localhost/shop-finder-test');
-
 		api.post('/shops')
 		.set('Accept', 'application/json')
 		.send({

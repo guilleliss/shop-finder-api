@@ -17,6 +17,4 @@ Then point the browser to `http://localhost:3000`.
 ## Improvements
 
 * Add authentication
-* Separate controllers and directives in files
-* Get more info from Google Places (rating, reviews, pics, etc)
 * Test test test
