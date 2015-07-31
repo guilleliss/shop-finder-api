@@ -151,6 +151,62 @@ router.get('/removeall', function(req, res) {
 	});
 });
 
+router.get('/settings', function(req, res) {
+	var settingsJson = {
+	title: "Settings",
+	table: {
+		backgroundColor: "#FFFFFF",
+		sections: [
+			{ name: "SUPPORT",  data: [
+				{ 
+					title : "Help and Feedback",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type: "link", url:"http://barkalastudios.com"}
+				},
+				{
+					title : "Email Us",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type: "mail", to:"hello@appname.com",subject:"Email Us", body:"html body"}
+
+				},
+				{   
+					title : "Add Features",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type: "mail", to:"hello@appname.com",subject:"Email Us", body:"html body"}
+				} 
+			]},
+			{ name: "SOCIAL",  data: [
+				{ 
+					title : "Rate this App",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type:"rateApp", url:"http://applestoreURL"}
+				},
+				{
+					title : "Follow Us on Twitter",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type:"twitter", username:"twitterUserName"}
+				},
+				{
+					title : "Like Us on Facebook",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type:"facebook", username:"Facebookpage"}
+				},
+				{
+					title : "Terms of Service",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type:"link", url:"http://barkalastudios.com"}
+				},
+				{
+					title : "Privacy Policy",
+					icon: { class: 1, type: 1, color : "#2CA390"},
+					action : { type:"link", url:"http://barkalastudios.com"}
+				},
+			]},
+		]}
+	};
+	res.json(settingsJson);
+});
+
 /**
  * Encodes coordantes. Parameter should be a json
  * with lan and lon parameters.
