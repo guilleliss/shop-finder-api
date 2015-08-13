@@ -161,45 +161,46 @@ router.get('/settings', function(req, res) {
 				{ 
 					title : "Help and Feedback",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type: "link", url:"http://barkalastudios.com"}
+					action : { type: "link", data:"http://barkalastudios.com"}
 				},
 				{
 					title : "Email Us",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type: "mail", to:"hello@appname.com",subject:"Email Us", body:"html body"}
+					action : { type: "dlink", data : { dlink:"mailto:hello@barkalastudios.com?subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!"}}
 
 				},
 				{   
 					title : "Add Features",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type: "mail", to:"hello@appname.com",subject:"Email Us", body:"html body"}
+					action : { type: "mail", data : {to:"hello@appname.com",subject:"Email Us", body:"html body"}}
 				} 
 			]},
 			{ name: "SOCIAL",  data: [
 				{ 
 					title : "Rate this App",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type:"rateApp", url:"http://applestoreURL"}
+					action : { type:"dlink", data :{dlink:"http://itunes.apple.com/app/id378458261",
+					   link:"http://itunes.apple.com/app/id378458261", appName:"App Store"}}
 				},
 				{
 					title : "Follow Us on Twitter",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type:"twitter", username:"twitterUserName"}
+					action : { type:"dlink", data:{ dlink:"twitter:///user?screen_name=spiritsciences",link:"https://twitter.com/spiritsciences", appName:"Twitter"}}
 				},
 				{
 					title : "Like Us on Facebook",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type:"facebook", username:"Facebookpage"}
+					action : { type:"dlink", data:{ dlink:"fb://profile/113810631976867", link:"https://www.facebook.com/thespiritscience", appName:"Facebook"}}
 				},
 				{
 					title : "Terms of Service",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type:"link", url:"http://barkalastudios.com"}
+					action : { type:"link", data:"http://barkalastudios.com"}
 				},
 				{
 					title : "Privacy Policy",
 					icon: { class: 1, type: 1, color : "#2CA390"},
-					action : { type:"link", url:"http://barkalastudios.com"}
+					action : { type:"link", data:"http://barkalastudios.com"}
 				},
 			]},
 		]}
