@@ -86,8 +86,8 @@ app.directive('shopDetails', [
 									},
 									source: "Google",
 									source_id: shopToShow.place_id,
-									rating: shopToShow.rating,
-									price_level: shopToShow.price_level,
+									rating: shopToShow.rating ? shopToShow.rating : 0,
+									price_level: shopToShow.price_level ? shopToShow.price_level : 0,
 									website: shopToShow.website,
 									reviews: shopToShow.reviews
 								};

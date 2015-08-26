@@ -37,9 +37,9 @@ var Shop = new Schema({
 		unique: true,
 		dropDups: true
 	},
-	rating: Number,
-	price_level: Number,
-	reviews_count: Number
+	rating: { type: Number, default: 0 },
+	price_level: { type: Number, default: 0 },
+	reviews_count: { type: Number, default: 0 }
 });
 
 var Review = new Schema({
