@@ -32,7 +32,7 @@ app.factory('GPService', [
 				/* Add photo url to the result */
 				if(data[i].photos != undefined &&
 					data[i].photos.length > 0) {
-					data[i].photoUrl = data[i].photos[0].getUrl({maxHeight: '400'});
+					data[i].photoUrl = data[i].photos[0].getUrl({'maxWidth': 400, 'maxHeight': 400});
 				}
 			};
 

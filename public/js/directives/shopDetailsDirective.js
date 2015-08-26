@@ -41,7 +41,7 @@ app.directive('shopDetails', [
 							shopPhotosUrls = [];
 							if ($scope.info.photos) {
 								for (var i = 0; i < $scope.info.photos.length; i++) {
-									shopPhotosUrls.push($scope.info.photos[i].getUrl({maxHeight: '600'}));
+									shopPhotosUrls.push($scope.info.photos[i].getUrl({'maxWidth': 400, 'maxHeight': 400}));
 								};
 							};
 
