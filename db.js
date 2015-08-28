@@ -46,7 +46,7 @@ var Review = new Schema({
 	rating: Number,
 	time: Number,
 	text: String,
-	shop_id: String
+	shop_id: { type: String, ref: 'Shop' }
 });
 
 var User = new Schema({

@@ -83,7 +83,6 @@ app.controller('MainController', [
 	};
 
 	$scope.deleteShop = function(shopId) {
-		
 		return shopsService.delete(shopId)
 			.success(function(data) {
 				$scope.addAlert("danger", "Shop deleted successfully.")
@@ -104,6 +103,16 @@ app.controller('MainController', [
 				return false;
 			});
 	}
+
+	$scope.getShopReviews = function(shopId) {
+		return shopsService.getShopReviews(shopId)
+			.success(function(data) {
+				return data;
+			})
+			.error(function(err) {
+				console.log(err);
+			});
+	};
 
 	/* Initiates the dashboward data*/
 	$scope.updateShops();

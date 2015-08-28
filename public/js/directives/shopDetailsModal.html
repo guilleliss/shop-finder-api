@@ -47,6 +47,16 @@
 				</div>
 			</div>	
 		</accordion-group>
+		<accordion-group heading="Reviews" is-open="" ng-show="shopInfo.reviews">
+			<ul class="list-group">
+				<li ng-repeat="review in shopInfo.reviews" class="list-group-item">
+					<div class="">
+						<rating class="shop-rating" readonly="true" ng-init="x = review.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating>({{ review.rating }})
+						<span>{{ review.text }}</span> <i>({{ review.time * 1000 | date : "dd/MM/yyyy 'at' h:mma" }})</i>
+					</div>
+				</li>
+			</ul>
+		</accordion-group>
 	</accordion>
 	</div>
 

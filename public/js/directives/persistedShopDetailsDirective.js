@@ -6,7 +6,8 @@ app.directive('persistedShopDetails', [
 		restrict: 'E',
 		scope: {
 			info: '=',
-			deleteShop: '&'		
+			deleteShop: '&',
+			getShopReviews: '&'	
 		},
 		templateUrl: 'js/directives/persistedShopDetails.html',
 		link: function ($scope, element, attrs) {
@@ -21,6 +22,12 @@ app.directive('persistedShopDetails', [
 
 			$scope.getShopDetailsModal = function(shopInfo) {
 				var shopToShow = shopInfo;
+
+				$scope.getShopReviews({ infoId: shopToShow._id })
+					.then(function (response) {
+						shopToShow.reviews = response.data;
+					});
+
 				var modalInstance = $modal.open({
 					animation: true,
 					templateUrl: 'js/directives/shopDetailsModal.html',

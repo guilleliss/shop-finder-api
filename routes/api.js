@@ -14,8 +14,7 @@ router.get('/', function(req, res) {
 
 /* Get a list of all shops */
 router.get('/shops', function(req, res) {
-	Shop.find({
-	}, function (err, data) {
+	Shop.find({}, function (err, data) {
 		if (err) return console.error(err);
 		var retShops = [];
 		for (var i = 0; i < data.length; i++) {
@@ -25,7 +24,7 @@ router.get('/shops', function(req, res) {
 			retShops.push(data[i]);
 		};
 		res.json(retShops);
-	});	
+	});
 });
 
 /* Save a new shop, and its reviews */
@@ -114,7 +113,7 @@ router.get('/shops/:shop_id/reviews', function(req, res) {
 	}, function (err, data) {
 			if (err) return console.error(err);
 			res.json(data);
-	});	
+	});
 });
 
 /* Check if a shop exists given its source id

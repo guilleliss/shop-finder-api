@@ -57,12 +57,24 @@ app.factory('shopsService', ['$http', function($http) {
 			});
 	};
 
+	this.getShopReviews = function(id) {
+		return $http.get('/api/shops/'+id+'/reviews/')
+			.success(function(data) {
+				return data;
+			})
+			.error(function(err) {
+				console.log(err);
+				return err;
+			});
+	};
+
 	return {
 		get: this.getShops,
 		getById: this.getShopById,
 		create: this.createShop,
 		delete: this.deleteShop,
-		exists: this.shopExists
+		exists: this.shopExists,
+		getShopReviews: this.getShopReviews,
 	}
 
 }]);
