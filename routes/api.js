@@ -17,7 +17,12 @@ router.get('/shops', function(req, res) {
 	Shop.find({
 	}, function (err, data) {
 		if (err) return console.error(err);
-		res.json(data);
+		var retShops = [];
+		for (var i = 0; i < data.length; i++) {
+			delete data[i]["opening_hours"]["periods"];
+			retShops.push(data[i]);
+		};
+		res.json(retShops);
 	});	
 });
 
