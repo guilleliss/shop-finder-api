@@ -19,7 +19,9 @@ router.get('/shops', function(req, res) {
 		if (err) return console.error(err);
 		var retShops = [];
 		for (var i = 0; i < data.length; i++) {
-			delete data[i]["opening_hours"]["periods"];
+			if (data[i]["opening_hours"] && data[i]["opening_hours"]["periods"]) {
+				delete data[i]["opening_hours"]["periods"];
+			}
 			retShops.push(data[i]);
 		};
 		res.json(retShops);
