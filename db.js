@@ -22,16 +22,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Shop = new Schema({
-	name:  String,
-	description: String,
-	address: String,
-	phone_number: String,
-	opening_hours: Object,
-	website: String,
-	photos: Array,
-	geolocation: Object,
-	hidden: Boolean,
-	source: String,
+	name: { type: String, default: "" },
+	description: { type: String, default: "" },
+	address: { type: String, default: "" },
+	phone_number: { type: String, default: "" },
+	opening_hours: { type: Object, default: {} },
+	website: { type: String, default: "" },
+	photos: { type: Array, default: [] },
+	geolocation: { type: Object, default: {} },
+	hidden: { type: Boolean, default: false },
+	source: { type: String, default: "" },
 	source_id: { 
 		type: String, 
 		unique: true,
@@ -43,9 +43,9 @@ var Shop = new Schema({
 });
 
 var Review = new Schema({
-	rating: Number,
-	time: Number,
-	text: String,
+	rating: { type: Number, default: 0 },
+	time: { type: Number, default: 0 },
+	text: { type: String, default: "" },
 	shop_id: { type: String, ref: 'Shop' }
 });
 
