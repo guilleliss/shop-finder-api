@@ -82,6 +82,17 @@ app.controller('MainController', [
 
 	};
 
+	$scope.updateShop = function(shopId) {
+		return shopsService.update(shopId)
+			.success(function(data) {
+				$scope.addAlert("info", "Shop updated successfully.")
+				$scope.updateShops();
+			})
+			.error(function(err) {
+				console.log(err);
+			});
+	};
+
 	$scope.deleteShop = function(shopId) {
 		return shopsService.delete(shopId)
 			.success(function(data) {

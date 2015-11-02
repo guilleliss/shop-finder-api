@@ -98,6 +98,20 @@ router.get('/shops/:shop_id', function(req, res) {
 	});	
 });
 
+/* Updates a shop details */
+router.put('/shops/:shop_id', function(req, res) {
+	Shop.findByIdAndUpdate(
+		req.params.shop_id,
+		{
+			description: req.body.description
+		},
+		function (err, data) {
+			if (err) return console.error(err);
+			res.json(data);
+	});	
+});
+
+/* Get all reviews  */
 router.get('/reviews', function(req, res) {
 	Review.find({
 	}, function (err, data) {

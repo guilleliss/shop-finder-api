@@ -57,12 +57,18 @@
 				</li>
 			</ul>
 		</accordion-group>
+		<accordion-group heading="Edit description" is-open="">
+			<form>
+				<textarea ng-model="shopInfo.description"></textarea>
+				<button class="btn btn-default btn-primary" ng-click="saveDescription()">Save</button>
+			</form>
+
+		</accordion-group>
 	</accordion>
 	</div>
 
 </div>
 
 <div class="modal-footer">
-	<!-- <button class="btn btn-primary" ng-click="ok()">Save</button> -->
 	<button class="btn btn-default" ng-click="ok()">Close</button>
 </div>

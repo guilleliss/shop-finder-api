@@ -35,6 +35,17 @@ app.factory('shopsService', ['$http', function($http) {
 			});
 	};
 
+	this.updateShop = function(shopInfo) {
+		return $http.put('/api/shops/' + shopInfo._id, shopInfo)
+			.success(function(data) {
+				return data;
+			})
+			.error(function(err) {
+				console.log(err);
+				return err;
+			});
+	};
+
 	this.deleteShop = function(id) {
 		return $http.delete('/api/shops/' + id)
 			.success(function(data) {
@@ -72,6 +83,7 @@ app.factory('shopsService', ['$http', function($http) {
 		get: this.getShops,
 		getById: this.getShopById,
 		create: this.createShop,
+		update: this.updateShop,
 		delete: this.deleteShop,
 		exists: this.shopExists,
 		getShopReviews: this.getShopReviews,

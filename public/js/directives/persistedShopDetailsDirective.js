@@ -7,6 +7,7 @@ app.directive('persistedShopDetails', [
 		scope: {
 			info: '=',
 			deleteShop: '&',
+			updateShop: '&',
 			getShopReviews: '&'	
 		},
 		templateUrl: 'js/directives/persistedShopDetails.html',
