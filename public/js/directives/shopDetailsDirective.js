@@ -76,14 +76,9 @@ app.directive('shopDetails', [
 										};
 								}
 
-								var lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque, lacus sit amet tincidunt vulputate, ex tellus consequat ligula, et blandit arcu enim sit amet libero. Quisque enim dui, auctor nec congue ac, gravida sit amet dolor. Duis eget efficitur eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce viverra ligula vulputate, auctor sem in, cursus risus. Sed ut consequat elit. Aliquam egestas volutpat lectus, non luctus enim accumsan eleifend.";
-
-								lorem+="Fusce vestibulum magna justo, nec volutpat ligula laoreet ut. Etiam commodo, elit ac efficitur tempor, urna ligula consequat nisi, non efficitur elit urna eu massa. Fusce eget augue blandit lacus aliquam sodales eu non magna. Quisque iaculis sollicitudin ligula, vitae tincidunt lectus mattis vehicula. In in faucibus elit, vitae consequat libero. Pellentesque quam erat, malesuada a ante sed, consectetur fringilla mi. Pellentesque ut ligula sollicitudin, rhoncus urna in, egestas dolor. Integer ac quam pharetra, tempus metus non, bibendum urna. Etiam placerat risus vel nulla ultricies dignissim. Fusce aliquam eleifend purus et hendrerit. Proin ornare, sem at bibendum blandit, eros nibh facilisis odio, eu tristique turpis ipsum vel nisi. Sed tempor suscipit nisl id posuere. Etiam porta vitae libero id pharetra. Vivamus molestie sem et risus vulputate convallis.";
-
 								/* Prepare data for API */
 								var shopToSave = {
 									name: shopToShow.name,
-									description: lorem,
 									address: shopToShow.formatted_address,
 									phone_number: shopToShow.international_phone_number,
 									opening_hours: opening_hours,
