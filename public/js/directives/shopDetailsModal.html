@@ -51,13 +51,13 @@
 			<ul class="list-group">
 				<li ng-repeat="review in shopInfo.reviews" class="list-group-item">
 					<div class="">
-						<rating class="shop-rating" readonly="true" ng-init="x = review.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating>({{ review.rating }})
+						<uib-rating class="shop-rating" readonly="true" ng-init="x = review.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></uib-rating>({{ review.rating }})
 						<span>{{ review.text }}</span> <i>({{ review.time * 1000 | date : "dd/MM/yyyy 'at' h:mma" }})</i>
 					</div>
 				</li>
 			</ul>
 		</uib-accordion-group>
-		<uib-accordion-group heading="Edit description" is-open="">
+		<uib-accordion-group heading="Edit description" is-open="" ng-show="!googlePlacesList">
 			<form>
 				<textarea ng-model="shopInfo.description" class="form-control" rows="3"></textarea>
 				<div class="btn-group">

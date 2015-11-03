@@ -29,9 +29,9 @@ provider('ngGPlacesAPI', function () {
 		_radarSearchApiFnCall: 'radarSearch'
 	};
 
-	var parseNSJSON = function (response) {
+	var parseNSJSON = function (response, req) {
 		var pResp = [];
-		var keys = defaults.nearbySearchKeys;
+		var keys = req.nearbySearchKeys;
 		response.map(function (result) {
 			var obj = {};
 			angular.forEach(keys, function (k) {
@@ -42,9 +42,9 @@ provider('ngGPlacesAPI', function () {
 		return pResp;
 	};
 
-	var parseTSJSON = function (response) {
+	var parseTSJSON = function (response, req) {
 		var pResp = [];
-		var keys = defaults.textSearchKeys;
+		var keys = req.textSearchKeys;
 		response.map(function (result) {
 			var obj = {};
 			angular.forEach(keys, function (k) {
@@ -55,9 +55,9 @@ provider('ngGPlacesAPI', function () {
 		return pResp;
 	};
 
-	var parseRSJSON = function (response) {
+	var parseRSJSON = function (response, req) {
 		var pResp = [];
-		var keys = defaults.radarSearchKeys;
+		var keys = req.radarSearchKeys;
 		response.map(function (result) {
 			var obj = {};
 			angular.forEach(keys, function (k) {
@@ -68,9 +68,9 @@ provider('ngGPlacesAPI', function () {
 		return pResp;
 	};
 
-	var parsePDJSON = function (response) {
+	var parsePDJSON = function (response, req) {
 		var pResp = {};
-		var keys = defaults.placeDetailsKeys;
+		var keys = req.placeDetailsKeys;
 		angular.forEach(keys, function (k) {
 			pResp[k] = response[k];
 		});
@@ -88,7 +88,7 @@ provider('ngGPlacesAPI', function () {
 				if (status == gPlaces.PlacesServiceStatus.OK) {
 					// $rootScope.$apply(function () {
 					// });
-						return deferred.resolve(req._parser(results));
+						return deferred.resolve(req._parser(results, req));
 				} else {
 					// $rootScope.$apply(function () {
 					// });
@@ -96,7 +96,7 @@ provider('ngGPlacesAPI', function () {
 				}
 			}
 			if (req._genLocation) {
-				req.location = new gMaps.LatLng(req.latitude, req.longitude);
+				req.location = new gMaps.LatLng(req.location.latitude, req.location.longitude);
 			}
 			if (req.map) {
 				elem = req.map;

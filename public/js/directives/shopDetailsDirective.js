@@ -22,6 +22,8 @@ app.directive('shopDetails', [
 					$scope.isInDatabase = response.data;
 			});
 
+			$scope.googlePlacesList = true;
+
 			/* Get the full version of the shop only if we haven't before */
 			$scope.internalGetShopDetails = function() {
 				if (dataWasRetrieved) {

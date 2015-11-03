@@ -7,13 +7,15 @@ app.controller('GPController', [
 
 	var location = {
 			lat: 40.414142,
-			lng: -3.703738 
+			lon: -3.703738 
 	};
 
 	var gprequest = {
 		location: location,
 		radius: '1000',
-		keyword: 'tapas in madrid'
+		keyword: 'tapas in madrid',
+		latitude: 40.414142,
+		longitude: -3.703738
 	};
 
 	GPService.getShops(gprequest).then(function(data) {
