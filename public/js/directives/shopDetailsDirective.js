@@ -86,8 +86,10 @@ app.directive('shopDetails', [
 									opening_hours: opening_hours,
 									photos: shopToShow.photos,
 									geolocation: {
-										lat: shopToShow.geometry.location.G,	
-										lng: shopToShow.geometry.location.K,	
+										// lat: shopToShow.geometry.location.G,
+										// lng: shopToShow.geometry.location.K
+										lat: shopToShow.geometry.location.lat(),
+										lng: shopToShow.geometry.location.lng()
 									},
 									source: "Google",
 									source_id: shopToShow.place_id,
