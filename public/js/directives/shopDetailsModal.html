@@ -18,14 +18,14 @@
 	<div>
 		<span class="shop-details-title">Price level:</span>
 		<span ng-show="shopInfo.price_level">
-			<rating readonly="true" ng-init="y = shopInfo.price_level" ng-model="y" state-on="'glyphicon-euro'" state-off="'glyphicon-minus'"></rating>({{ shopInfo.price_level }})
+			<uib-rating readonly="true" ng-init="y = shopInfo.price_level" ng-model="y" state-on="'glyphicon-euro'" state-off="'glyphicon-minus'"></uib-rating>({{ shopInfo.price_level }})
 		</span>
 		<span ng-hide="shopInfo.price_level">Not available</span>
 	</div>
 	<div>
 		<span class="shop-details-title">Rating:</span>
 		<span ng-show="shopInfo.rating">
-			<rating class="shop-rating" readonly="true" ng-init="x = shopInfo.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating>({{ shopInfo.rating }})
+			<uib-rating class="shop-rating" readonly="true" ng-init="x = shopInfo.rating" ng-model="x" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></uib-rating>({{ shopInfo.rating }})
 		</span>
 		<span ng-hide="shopInfo.rating">Not available</span>
 	</div>
@@ -34,20 +34,20 @@
 		<span>{{ shopInfo.reviews_count }}</span>
 	</div>
 	<div>
-	<accordion class="shop-details-accordion" close-others="true">
-		<accordion-group heading="Opening hours" ng-show="shopInfo.opening_hours">
+	<uib-accordion class="shop-details-accordion" close-others="true">
+		<uib-accordion-group heading="Opening hours" ng-show="shopInfo.opening_hours">
 			<div ng-repeat="period in shopInfo.opening_hours.weekday_text">
 				<span>{{ period }}</span>
 			</div>
-		</accordion-group>
-		<accordion-group heading="Gallery" is-open="">
+		</uib-accordion-group>
+		<uib-accordion-group heading="Gallery" is-open="">
 			<div class="carousel-container">
 				<div class="shop-detail-gallery" ng-repeat="pic in shopInfo.photos">
 					<img ng-src="{{pic}}">
 				</div>
 			</div>	
-		</accordion-group>
-		<accordion-group heading="Reviews" is-open="" ng-show="shopInfo.reviews">
+		</uib-accordion-group>
+		<uib-accordion-group heading="Reviews" is-open="" ng-show="shopInfo.reviews">
 			<ul class="list-group">
 				<li ng-repeat="review in shopInfo.reviews" class="list-group-item">
 					<div class="">
@@ -56,8 +56,8 @@
 					</div>
 				</li>
 			</ul>
-		</accordion-group>
-		<accordion-group heading="Edit description" is-open="">
+		</uib-accordion-group>
+		<uib-accordion-group heading="Edit description" is-open="">
 			<form>
 				<textarea ng-model="shopInfo.description" class="form-control" rows="3"></textarea>
 				<div class="btn-group">
@@ -66,8 +66,8 @@
 				</div>
 			</form>
 
-		</accordion-group>
-	</accordion>
+		</uib-accordion-group>
+	</uib-accordion>
 	</div>
 
 </div>
