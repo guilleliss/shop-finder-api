@@ -59,8 +59,11 @@
 		</accordion-group>
 		<accordion-group heading="Edit description" is-open="">
 			<form>
-				<textarea ng-model="shopInfo.description"></textarea>
-				<button class="btn btn-default btn-primary" ng-click="saveDescription()">Save</button>
+				<textarea ng-model="shopInfo.description" class="form-control" rows="3"></textarea>
+				<div class="btn-group">
+					<button class="btn btn-default btn-primary" ng-click="saveDescription()">Save</button>
+					</button>
+				</div>
 			</form>
 
 		</accordion-group>

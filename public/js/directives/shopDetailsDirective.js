@@ -1,6 +1,6 @@
 app.directive('shopDetails', [
-	'$modal',
-	function ($modal) {
+	'$uibModal',
+	function ($uibModal) {
 	
 	return {
 		restrict: 'E',
@@ -111,7 +111,7 @@ app.directive('shopDetails', [
 				$scope.internalGetShopDetails().then(function(data) {
 					var shopToShow = $scope.info;
 
-					var modalInstance = $modal.open({
+					var modalInstance = $uibModal.open({
 						animation: true,
 						templateUrl: 'js/directives/shopDetailsModal.html',
 						controller: 'ModalInstanceController',

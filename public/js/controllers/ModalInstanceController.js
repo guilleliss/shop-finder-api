@@ -1,18 +1,25 @@
 app.controller('ModalInstanceController', [
 	'$scope',
-	'$modalInstance',
+	'$uibModalInstance',
 	'shopInfo',
 	'shopsService',
-	function ($scope, $modalInstance, shopInfo, shopsService) {
+	function ($scope, $uibModalInstance, shopInfo, shopsService) {
 
 	$scope.shopInfo = shopInfo;
 
 	$scope.ok = function () {
-		$modalInstance.close();
+		$uibModalInstance.close();
 	};
 
 	$scope.saveDescription = function () {
-		shopsService.update(shopInfo);		
+		return shopsService.update(shopInfo)
+			.success(function(data) {
+				$scope.addAlert("info", "Shop updated successfully.")
+				// $scope.updateShops();
+			})
+			.error(function(err) {
+				console.log(err);
+			});
 	};
 
 	$scope.slides = shopInfo.shopPhotos;

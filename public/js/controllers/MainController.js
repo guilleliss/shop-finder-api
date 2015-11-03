@@ -3,7 +3,8 @@ app.controller('MainController', [
 	'$timeout', 
 	'shopsService', 
 	'libraryService',
-	function($scope, $timeout, shopsService, libraryService) {
+	'$uibModal',
+	function($scope, $timeout, shopsService, libraryService, $uibModal) {
 
 	/* Alerts should be managed in a separate controller/service */
 	$scope.alerts = [];
@@ -82,8 +83,8 @@ app.controller('MainController', [
 
 	};
 
-	$scope.updateShop = function(shopId) {
-		return shopsService.update(shopId)
+	$scope.updateShop = function(shopInfo) {
+		return shopsService.update(shopInfo)
 			.success(function(data) {
 				$scope.addAlert("info", "Shop updated successfully.")
 				$scope.updateShops();
@@ -123,6 +124,33 @@ app.controller('MainController', [
 			.error(function(err) {
 				console.log(err);
 			});
+	};
+
+	$scope.launchShopDetailsModal = function(shopInfo) {
+		var shopToShow = shopInfo;
+
+		$scope.getShopReviews({ infoId: shopToShow._id })
+			.then(function (response) {
+				shopToShow.reviews = response.data;
+			});
+
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'js/directives/shopDetailsModal.html',
+			controller: 'ModalInstanceController',
+			scope: $scope,
+			backdrop: true,
+			resolve: {
+				shopInfo: function () {
+		  			return shopToShow;
+				}
+			}
+		});
+
+		modalInstance.result.then(function () {
+		}, function () {
+			console.log('modal dismissed');
+		});
 	};
 
 	/* Initiates the dashboward data*/
