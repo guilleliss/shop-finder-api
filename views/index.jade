@@ -4,7 +4,7 @@ block body
 	div.container(ng-controller='MainController')
 		div.row
 			div.col-xs-12.col-sm-6.col-sd-offset-6.col-md-offset-9.col-md-3.col-lg-3.col-lg-offset-9.alerts-box
-				<alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+				<uib-alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 		
 		div(ng-view)
 

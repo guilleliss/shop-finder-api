@@ -148,17 +148,24 @@ router.delete('/shops/:shop_id', function(req, res) {
 	Shop.remove({
 		_id: req.params.shop_id
 	}, function (err, data) {
-		if (err) res.send(err);
+		if (err) {
+			res.send(err);
+			return;
+		}
 
 		/* We remove all its reviews as well */
 		Review.remove({
 			shop_id: req.params.shop_id
 		}, function (err, data) {
-			if (err) res.send(err);
-				res.json(data);
+			if (err) {
+				res.send(err);
+				return;
+			}
+			// console.log(data);
+			res.json(data);
 		});
 
-		res.json(data);
+		// res.json(data);
 	});
 });
 
