@@ -48,7 +48,8 @@ var Shop = new Schema({
 	},
 	rating: { type: Number, default: 0 },
 	price_level: { type: Number, default: 0 },
-	reviews_count: { type: Number, default: 0 }
+	reviews_count: { type: Number, default: 0 },
+	city: String
 });
 
 var Review = new Schema({
@@ -57,6 +58,14 @@ var Review = new Schema({
 	text: String,
 	shop_id: { type: String, ref: 'Shop' }
 });
+
+var City = new Schema({
+	name: { 
+		type: String, 
+		unique: true,
+		dropDups: true
+	}
+}); 
 
 var User = new Schema({
 	username: String,
@@ -67,5 +76,6 @@ var User = new Schema({
 
 mongoose.model('Shop', Shop);
 mongoose.model('Review', Review);
+mongoose.model('City', City);
 
 mongoose.connect(mongourl);

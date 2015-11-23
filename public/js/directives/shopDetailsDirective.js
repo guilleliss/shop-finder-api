@@ -47,6 +47,8 @@ app.directive('shopDetails', [
 								};
 							};
 
+							$scope.info.city = getLocality($scope.info);
+
 							$scope.info.photos = shopPhotosUrls;
 
 							dataWasRetrieved = true;
@@ -56,7 +58,24 @@ app.directive('shopDetails', [
 					});
 			}
 
+			/* Finds the city of a Google Places detail */
+			function getLocality(shop) {
+				var CITY_COMPONENT = 'locality';
+				var shopCity = '';
 
+				if(shop.address_components) {
+					shop.address_components.forEach(function(component) {
+						component.types.forEach(function(componentType) {
+							if(componentType == CITY_COMPONENT) {
+								shopCity = component.long_name;
+								return false;
+							}
+						});
+						if(shopCity != '') return false;
+					});
+					return shopCity;
+				}
+			}
 			
 			/* Bring shop details if not yet, and saves them to API */
 			$scope.internalSaveShop = function(shopInfo) {
@@ -85,6 +104,7 @@ app.directive('shopDetails', [
 									phone_number: shopToShow.international_phone_number,
 									opening_hours: opening_hours,
 									photos: shopToShow.photos,
+									city: shopToShow.city,
 									geolocation: {
 										// lat: shopToShow.geometry.location.G,
 										// lng: shopToShow.geometry.location.K

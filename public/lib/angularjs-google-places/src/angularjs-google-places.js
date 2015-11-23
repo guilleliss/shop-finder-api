@@ -17,7 +17,7 @@ provider('ngGPlacesAPI', function () {
 		elem: null,
 		textSearchKeys: ['formatted_address','geometry','id','name','place_id','price_level','rating','reference','types', 'photos'],
 		nearbySearchKeys: ['geometry','id','name','place_id','rating','reference','types', 'photos'],
-		placeDetailsKeys: ['formatted_address','formatted_phone_number','geometry','html_attributions','icon','id','international_phone_number','name','opening_hours','photos','place_id','price_level','rating','reference','reviews','types', 'vicinity','website'],
+		placeDetailsKeys: ['formatted_address','address_components','formatted_phone_number','geometry','html_attributions','icon','id','international_phone_number','name','opening_hours','photos','place_id','price_level','rating','reference','reviews','types', 'vicinity','website'],
 		radarSearchKeys: ['geometry', 'place_id'],
 		nearbySearchErr: 'Unable to find nearby places',
 		placeDetailsErr: 'Unable to find place details',

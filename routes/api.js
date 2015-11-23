@@ -3,6 +3,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Shop = mongoose.model('Shop');
+var City = mongoose.model('City');
 var Review = mongoose.model('Review');
 
 var ngeohash = require('ngeohash');
@@ -46,6 +47,7 @@ router.post('/shops', function(req, res) {
 		opening_hours: req.body.opening_hours,
 		website: req.body.website,
 		photos: req.body.photos,
+		city: req.body.city,
 		geolocation: {
 			geohash: geohash,
 			location: req.body.geolocation	
@@ -58,12 +60,31 @@ router.post('/shops', function(req, res) {
 		reviews_count: reviews_count
 	});
 
-
 	newShop.save(function(err, shop) {
 		if (err) {
 			console.log("error:" + err);
 			res.send(err);
 		}
+
+		/* We save the shop city if still not in the database */
+		var newCity = new City({
+			name: shop.city
+		});
+
+		newCity.save(function(err, city) {
+			if (err) console.log("error: " + err);
+		});
+
+		// City.find({
+		// 	name: newCity.name
+		// }, function (err, data) {
+		// 	if (err) console.log("error:" + err);
+		// 	if (data.length == 0) {
+		// 		newCity.save(function(err, city) {
+		// 			if (err) console.log("error:" + err);
+		// 		});
+		// 	};
+		// });		
 
 		/* If the shop brings reviews, we save each */
 		if(reviews) {		
@@ -78,7 +99,7 @@ router.post('/shops', function(req, res) {
 				newReview.save(function(err, review) {
 					if (err) {
 						console.log("error:" + err);
-						res.send(err);
+						// res.send(err);
 					}
 				});
 			};
@@ -169,15 +190,26 @@ router.delete('/shops/:shop_id', function(req, res) {
 	});
 });
 
-/* Empty the DB, removes all shops and reviews */
+/* Empty the DB, removes all shops, reviews and cities */
 router.get('/removeall', function(req, res) {
-	Shop.remove({}, function(err) { 
-		Review.remove({}, function(err) { 
-			res.json({ message: 'All data removed' });
+	City.remove({}, function(err) { 
+		Shop.remove({}, function(err) { 
+			Review.remove({}, function(err) { 
+				res.json({ message: 'All data removed' });
+			});
 		});
 	});
 });
 
+/* Get a list of the available cities */
+router.get('/cities', function(req, res) {
+	City.find({}, function (err, data) {
+		if (err) return console.error(err);
+		res.json(data);
+	});
+});
+
+/* Get settings for the client app */
 router.get('/settings', function(req, res) {
 	var settingsJson = {
 	title: "Settings",
@@ -235,6 +267,88 @@ router.get('/settings', function(req, res) {
 	res.json(settingsJson);
 });
 
+/* Get settings for the client app */
+router.get('/updateData', function(req, res) {
+	Shop.find({}, function (err, data) {
+		if (err) return console.error(err);
+				
+		data.forEach(function(shop) {
+			locations.details({placeid: shop.source_id}, function(err, details) {
+
+				if(!details.result) {
+					console.error("Error: ");
+					console.error(details);
+				}
+
+				if(details.result) {
+					shopDetails = details.result;
+
+					currLocation = {
+							lat: shopDetails.geometry.location.lat,
+							lng: shopDetails.geometry.location.lng
+						}
+
+					var geohash = encodeCoords(currLocation);
+
+					shopPhotosUrls = [];
+					if (shopDetails.photos) {
+						for (var i = 0; i < shopDetails.photos.length; i++) {
+							locations.photo({
+								photoreference: shopDetails.photos[i].photo_reference, 
+								maxwidth: 400
+							}, function(err, photo) {
+								if (err) console.log(err);
+								shopPhotosUrls.push(photo);
+							});
+
+						};
+					};
+
+					shop.name = shopDetails.name;
+					shop.address = shopDetails.formatted_address;
+					shop.phone_number = shopDetails.international_phone_number;
+					shop.opening_hours = shopDetails.opening_hours;
+					shop.website = shopDetails.website;
+					shop.photos = shopPhotosUrls;
+					shop.city = getLocality(shopDetails);
+					shop.geolocation = {
+						geohash: geohash,
+						location: currLocation
+						}
+					shop.hidden = shopDetails.permanently_closed;
+					shop.rating = shopDetails.rating ? shopDetails.rating : 0;
+					shop.price_level = shopDetails.price_level ? shopDetails.price_level : 0;
+
+					shop.save();
+				}
+			});			
+		});
+
+		res.json({ message: 'All data updated' });
+	});
+});
+
+/**
+ * Finds the city of a given google place
+ */
+function getLocality(shop) {
+	var CITY_COMPONENT = 'locality';
+	var shopCity = '';
+
+	if(shop.address_components) {
+		shop.address_components.forEach(function(component) {
+			component.types.forEach(function(componentType) {
+				if(componentType == CITY_COMPONENT) {
+					shopCity = component.long_name;
+					return false;
+				}
+			});
+			if(shopCity != '') return false;
+		});
+		return shopCity;
+	}
+}
+
 /**
  * Encodes coordantes. Parameter should be a json
  * with lan and lon parameters.
@@ -244,7 +358,10 @@ function encodeCoords(location) {
 }
 
 /* TODO: Remove all from here */
-var GooglePlaces = require('google-places');
-var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
+var GoogleLocations = require('google-locations');
+var locations = new GoogleLocations('AIzaSyDDH78oK3DLTs9G1xfH798jO-5ok2FUvFQ');
+// var GooglePlaces = require('google-places');
+// var places = new GooglePlaces('AIzaSyDDH78oK3DLTs9G1xfH798jO-5ok2FUvFQ');
+// var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
 
 module.exports = router;
