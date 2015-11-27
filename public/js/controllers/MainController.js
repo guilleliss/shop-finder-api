@@ -129,7 +129,7 @@ app.controller('MainController', [
 	$scope.launchShopDetailsModal = function(shopInfo) {
 		var shopToShow = shopInfo;
 
-		$scope.getShopReviews({ infoId: shopToShow._id })
+		$scope.getShopReviews(shopToShow._id)
 			.then(function (response) {
 				shopToShow.reviews = response.data;
 			});
