@@ -285,11 +285,10 @@ router.get('/updateData', function(req, res) {
 					}, function (err, data) {
 						if (err) return console.error(err);
 						new_reviews_count = data.length;
+						shop.reviews_count = new_reviews_count;
+						shop.save();
 					});	
 
-					shop.reviews_count = new_reviews_count;
-
-					shop.save();
 				}
 			});	
 		});
