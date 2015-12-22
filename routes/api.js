@@ -214,11 +214,12 @@ router.get('/settings', function(req, res) {
 	var settingsJson = {
 	title: "App Settings",
 	config:{
-			appMenuBackgroundImageLink = "http://criticalhits.com.br/wp-content/uploads/2013/10/Felix_The_Cat_by_ASamDesign.jpg"
+		appMenuBackgroundImageLink: "http://criticalhits.com.br/wp-content/uploads/2013/10/Felix_The_Cat_by_ASamDesign.jpg"
 	}
-	share: { appShareImageLink = "http://www.picturescolourlibrary.co.uk/loreswithlogo/1917011.jpg",
-			appShareMessage = "Tappas, la aplicación mas copada del universo. Comparte con amigos y perros!",
-			appShareLink = "www.barkalastudios.com"
+	share: {
+		appShareImageLink: "http://www.picturescolourlibrary.co.uk/loreswithlogo/1917011.jpg",
+		appShareMessage: "Tappas, la aplicación mas copada del universo. Comparte con amigos y perros!",
+		appShareLink: "www.barkalastudios.com"
 		},
 	table: {
 		backgroundColor: "#FFFFFF",
