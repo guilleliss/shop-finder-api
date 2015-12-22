@@ -30,35 +30,10 @@ router.get('/shops', function(req, res) {
 
 /* Save a new shop, and its reviews */
 router.post('/shops', function(req, res) {
-	var reviews = req.body.reviews;
-	var reviews_count = 0;
 
-	if(reviews) {
-		reviews_count = reviews.length;
-	}
+	var newShop = new Shop();
 
-	var geohash = encodeCoords(req.body.geolocation);
-
-	var newShop = new Shop({
-		name: req.body.name,
-		description: req.body.description,
-		address: req.body.address,
-		phone_number: req.body.phone_number,
-		opening_hours: req.body.opening_hours,
-		website: req.body.website,
-		photos: req.body.photos,
-		city: req.body.city,
-		geolocation: {
-			geohash: geohash,
-			location: req.body.geolocation	
-		},
-		hidden: false,
-		source: req.body.source,
-		source_id: req.body.source_id,
-		rating: req.body.rating,
-		price_level: req.body.price_level,
-		reviews_count: reviews_count
-	});
+	saveNewShop(req.body, newShop);
 
 	newShop.save(function(err, shop) {
 		if (err) {
@@ -73,43 +48,45 @@ router.post('/shops', function(req, res) {
 
 		newCity.save(function(err, city) {
 			if (err) console.log("error: " + err);
-		});
-
-		// City.find({
-		// 	name: newCity.name
-		// }, function (err, data) {
-		// 	if (err) console.log("error:" + err);
-		// 	if (data.length == 0) {
-		// 		newCity.save(function(err, city) {
-		// 			if (err) console.log("error:" + err);
-		// 		});
-		// 	};
-		// });		
+		});	
 
 		/* If the shop brings reviews, we save each */
-		if(reviews) {		
-			for (var i = 0; i < reviews_count; i++) {
-				var newReview = new Review({
-					shop_id: shop._id,
-					rating: reviews[i].rating,
-					text: reviews[i].text,
-					time: reviews[i].time
-				});
-
-				newReview.save(function(err, review) {
-					if (err) {
-						console.log("error:" + err);
-						// res.send(err);
-					}
-				});
-			};
-		};
+		retrieveNewReviews(newShop, req.body);
 
 		res.json(shop);
 	});	
 });
 
-/* Get a shops detail by id, but not its reviews  */
+/* 
+ * Saves a new shop given remote info
+ */
+function saveNewShop(shop_info, newShop) {
+
+	var reviews = shop_info.reviews;
+
+	var geohash = encodeCoords(shop_info.geometry.location);
+
+	newShop.name = shop_info.name;
+	newShop.description = shop_info.description;
+	newShop.address = shop_info.formatted_address;
+	newShop.phone_number = shop_info.international_phone_number;
+	newShop.opening_hours = shop_info.opening_hours;
+	newShop.website = shop_info.website;
+	newShop.photos = shop_info.photos[0].photo_reference ? retrieveNewPhotos(shop_info.photos) : shop_info.photos;
+	newShop.city = shop_info.city;
+	newShop.geolocation = {
+			geohash: geohash,
+			location: shop_info.geometry.location
+		};
+	newShop.hidden = shop_info.permanently_closed;
+	newShop.source = shop_info.source;
+	newShop.source_id = shop_info.source_id;
+	newShop.rating = shop_info.rating ? shop_info.rating : 0;
+	newShop.price_level = shop_info.price_level ? shop_info.price_level : 0;
+	newShop.reviews_count = reviews ? reviews.length : 0;
+}
+
+/* Get a shop detail by id, but not its reviews  */
 router.get('/shops/:shop_id', function(req, res) {
 	Shop.findById(
 		req.params.shop_id, 
@@ -146,8 +123,8 @@ router.get('/shops/:shop_id/reviews', function(req, res) {
 	Review.find({
 		shop_id: req.params.shop_id 
 	}, function (err, data) {
-			if (err) return console.error(err);
-			res.json(data);
+		if (err) return console.error(err);
+		res.json(data);
 	});
 });
 
@@ -211,6 +188,8 @@ router.get('/cities', function(req, res) {
 
 /* Get settings for the client app */
 router.get('/settings', function(req, res) {
+	// TODO: This information should be persisted and updated from the UI
+	
 	var settingsJson = {
 	title: "App Settings",
 	config:{
@@ -275,71 +254,116 @@ router.get('/settings', function(req, res) {
 	res.json(settingsJson);
 });
 
-/* Get settings for the client app */
+/* Update data retrieved from google places */
 router.get('/updateData', function(req, res) {
 	Shop.find({}, function (err, data) {
 		if (err) return console.error(err);
 				
 		data.forEach(function(shop) {
-			locations.details({placeid: shop.source_id}, function(err, details) {
+			locations.details({placeid: shop.source_id},
+				function(err, details) {
+
+				if(err) {
+					console.log(err);
+					return;
+				}
 
 				if(!details.result) {
 					console.error("Error: ");
 					console.error(details);
-				}
+				} else {
+					saveNewShop(details.result, shop);
 
-				if(details.result) {
-					shopDetails = details.result;
-
-					currLocation = {
-							lat: shopDetails.geometry.location.lat,
-							lng: shopDetails.geometry.location.lng
-						}
-
-					var geohash = encodeCoords(currLocation);
-
-					shopPhotosUrls = [];
-					if (shopDetails.photos) {
-						for (var i = 0; i < shopDetails.photos.length; i++) {
-							locations.photo({
-								photoreference: shopDetails.photos[i].photo_reference, 
-								maxwidth: 400
-							}, function(err, photo) {
-								if (err) console.log(err);
-								shopPhotosUrls.push(photo);
-							});
-
-						};
-					};
-
-					shop.name = shopDetails.name;
-					shop.address = shopDetails.formatted_address;
-					shop.phone_number = shopDetails.international_phone_number;
-					shop.opening_hours = shopDetails.opening_hours;
-					shop.website = shopDetails.website;
-					shop.photos = shopPhotosUrls;
-					shop.city = getLocality(shopDetails);
-					shop.geolocation = {
-						geohash: geohash,
-						location: currLocation
-						}
-					shop.hidden = shopDetails.permanently_closed;
-					shop.rating = shopDetails.rating ? shopDetails.rating : 0;
-					shop.price_level = shopDetails.price_level ? shopDetails.price_level : 0;
-
+					// We save new reviews
+					retrieveNewReviews(shop, details.result);
 					shop.save();
 				}
-			});			
+			});	
 		});
 
 		res.json({ message: 'All data updated' });
 	});
 });
 
+/* 
+ * Retrieves all reviews given the shop, and saves only the new ones.
+ */
+function retrieveNewReviews(shop, remote_shop) {
+	var currShopReviews = [];
+
+	if (remote_shop.reviews) {
+	
+		Review.find({
+			shop_id: shop._id 
+		}, function (err, data) {
+			if (err) return console.error(err);
+			currShopReviews = data;
+
+			for (var i = 0; i < remote_shop.reviews.length; i++) {
+				if (!reviewAlreadySaved(currShopReviews, remote_shop.reviews[i])) {
+
+					var newReview = new Review({
+						shop_id: shop._id,
+						rating: remote_shop.reviews[i].rating,
+						text: remote_shop.reviews[i].text,
+						time: remote_shop.reviews[i].time
+					});
+
+					newReview.save(function(err, review) {
+						if (err) {
+							console.log("error:" + err);
+							// res.send(err);
+						}
+					});
+
+				};
+			};
+		});
+
+	};
+
+}
+
+/* 
+ * Checks if a given remote review is already   
+ * persisted as part of a shop, or not.
+ */
+function reviewAlreadySaved(reviews, new_review) {
+	for (var i = 0; i < reviews.length; i++) {
+		if(reviews[i].time == new_review.time) {
+			return true;
+		}
+	};
+	return false;
+}
+
+/* 
+ * Given a remote array of photos, it retrieves the url  
+ * for each and returns it in an array.
+ */
+function retrieveNewPhotos(remote_photos) {
+
+	shopPhotosUrls = [];
+	if (remote_photos) {
+		for (var i = 0; i < remote_photos.length; i++) {
+			locations.photo({
+				photoreference: remote_photos[i].photo_reference, 
+				maxwidth: 400
+			}, function(err, photo) {
+				if (err) console.log(err);
+				shopPhotosUrls.push(photo);
+			});
+		};
+	};
+
+	return shopPhotosUrls;
+}
+
 /**
  * Finds the city of a given google place
  */
 function getLocality(shop) {
+	// TODO: this variable should be persisted and updated from the UI
 	var CITY_COMPONENT = 'locality';
 	var shopCity = '';
 
@@ -359,7 +383,7 @@ function getLocality(shop) {
 
 /**
  * Encodes coordantes. Parameter should be a json
- * with lan and lon parameters.
+ * with lat and lng parameters.
  */
 function encodeCoords(location) {
 	return ngeohash.encode(location['lat'], location['lng']);

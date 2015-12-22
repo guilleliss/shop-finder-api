@@ -100,16 +100,16 @@ app.directive('shopDetails', [
 								/* Prepare data for API */
 								var shopToSave = {
 									name: shopToShow.name,
-									address: shopToShow.formatted_address,
-									phone_number: shopToShow.international_phone_number,
+									formatted_address: shopToShow.formatted_address,
+									international_phone_number: shopToShow.international_phone_number,
 									opening_hours: opening_hours,
 									photos: shopToShow.photos,
 									city: shopToShow.city,
-									geolocation: {
-										// lat: shopToShow.geometry.location.G,
-										// lng: shopToShow.geometry.location.K
-										lat: shopToShow.geometry.location.lat(),
-										lng: shopToShow.geometry.location.lng()
+									geometry: {
+										location: {
+											lat: shopToShow.geometry.location.lat(),
+											lng: shopToShow.geometry.location.lng()
+										}
 									},
 									source: "Google",
 									source_id: shopToShow.place_id,
