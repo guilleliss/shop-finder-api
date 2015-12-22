@@ -215,7 +215,7 @@ router.get('/settings', function(req, res) {
 	title: "App Settings",
 	config:{
 		appMenuBackgroundImageLink: "http://criticalhits.com.br/wp-content/uploads/2013/10/Felix_The_Cat_by_ASamDesign.jpg"
-	}
+	},
 	share: {
 		appShareImageLink: "http://www.picturescolourlibrary.co.uk/loreswithlogo/1917011.jpg",
 		appShareMessage: "Tappas, la aplicación mas copada del universo. Comparte con amigos y perros!",
