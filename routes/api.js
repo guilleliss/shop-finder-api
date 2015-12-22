@@ -276,6 +276,19 @@ router.get('/updateData', function(req, res) {
 
 					// We save new reviews
 					retrieveNewReviews(shop, details.result);
+
+
+					// We bring the new number of reviews
+					var new_reviews_count = 0;
+
+					Review.find({
+					}, function (err, data) {
+						if (err) return console.error(err);
+						new_reviews_count = data.length;
+					});	
+
+					shop.reviews_count = new_reviews_count;
+
 					shop.save();
 				}
 			});	
