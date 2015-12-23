@@ -80,7 +80,7 @@ function saveNewShop(shop_info, newShop) {
 		};
 	newShop.hidden = shop_info.permanently_closed;
 	newShop.source = shop_info.source;
-	newShop.source_id = shop_info.source_id;
+	newShop.source_id = shop_info.place_id ? shop_info.place_id : shop_info.source_id;
 	newShop.rating = shop_info.rating ? shop_info.rating : 0;
 	newShop.price_level = shop_info.price_level ? shop_info.price_level : 0;
 	newShop.reviews_count = reviews ? reviews.length : 0;
@@ -283,11 +283,13 @@ router.get('/updateData', function(req, res) {
 					var new_reviews_count = 0;
 
 					Review.find({
+						shop_id: shop._id 
 					}, function (err, data) {
 						if (err) return console.error(err);
 						new_reviews_count = data.length;
 						shop.reviews_count = new_reviews_count;
 						shop.save();
+						console.log(shop.reviews_count);
 					});	
 
 				}
