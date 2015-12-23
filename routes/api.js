@@ -192,8 +192,9 @@ router.get('/settings', function(req, res) {
 	
 	var settingsJson = {
 	title: "App Settings",
+	updated : "2012-04-21T18:25:43-05:00",
 	config:{
-		appMenuBackgroundImageLink: "http://criticalhits.com.br/wp-content/uploads/2013/10/Felix_The_Cat_by_ASamDesign.jpg"
+		appMenuBackgroundImageLink: "http://www.barkalastudios.com/wp-content/uploads/bg.jpg"
 	},
 	share: {
 		appShareImageLink: "http://www.picturescolourlibrary.co.uk/loreswithlogo/1917011.jpg",
