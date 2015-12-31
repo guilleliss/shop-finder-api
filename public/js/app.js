@@ -2,7 +2,9 @@ var app = angular.module('shopApp', [
 	'ngRoute',
 	'ngGPlaces',
 	'ngAnimate',
-	'ui.bootstrap']);
+	'angular-loading-bar',
+	'ui.bootstrap'
+]);
 
 app.config(function ($routeProvider, $locationProvider) {
 	$routeProvider.
@@ -18,6 +20,10 @@ app.config(function ($routeProvider, $locationProvider) {
 			templateUrl: 'partials/apiCheckView',
 			controller: 'ApiCheckController'
 		}).
+		when('/login', {
+			templateUrl: 'partials/login',
+			controller: 'MainController'
+		}).		
 		otherwise({
 			redirectTo: '/'
 		});

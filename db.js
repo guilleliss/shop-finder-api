@@ -68,14 +68,23 @@ var City = new Schema({
 }); 
 
 var User = new Schema({
-	username: String,
+	name: { 
+		type: String, 
+		unique: true,
+		dropDups: true
+	},
 	password: String,
-	email: String,
-	gender: String
+	email: { 
+		type: String, 
+		unique: true,
+		dropDups: true
+	},
+	admin: { type: Boolean, default: false }
 });
 
 mongoose.model('Shop', Shop);
 mongoose.model('Review', Review);
 mongoose.model('City', City);
+mongoose.model('User', User);
 
 mongoose.connect(mongourl);
