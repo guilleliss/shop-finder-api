@@ -1,7 +1,7 @@
 extends layout
 
 block body
-	div.container(ng-controller='MainController')
+	div.container
 		div.row
 			div.col-xs-12.col-sm-6.col-sd-offset-6.col-md-offset-9.col-md-3.col-lg-3.col-lg-offset-9.alerts-box
 				<uib-alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
@@ -20,6 +20,10 @@ block body
 	//- Angular-Bootstrap files
 	//- script(src='lib/angular-bootstrap/ui-bootstrap.min.js')
 	script(src='lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+		
+	//- Auth files
+	script(src='lib/ngstorage/ngStorage.min.js')
+	script(src='lib/angular-loading-bar/build/loading-bar.min.js')
 
 	//- Angular app files
 	script(src='js/app.js')
@@ -28,6 +32,7 @@ block body
 	script(src='js/services/GPService.js')
 	script(src='js/services/shopsService.js')
 	script(src='js/services/libraryService.js')
+	script(src='js/services/AuthService.js')
 	
 	//- Angular controllers
 	script(src='js/controllers/MainController.js')

@@ -7,7 +7,7 @@ html(ng-app="shopApp")
 		title Store Finder Dashboard 
 		link(rel='stylesheet', href='/css/style.css')
 		link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap-material.min.css')
-	body
+	body(ng-controller='MainController')
 		nav.navbar.navbar-inverse.navbar-fixed-top
 			div.container-fluid
 
@@ -32,5 +32,6 @@ html(ng-app="shopApp")
 							ul.uib-dropdown-menu
 								li: a(href="/login") Login
 								li: a(href="/login") Profile
+								li: a(ng-click="logout()") Logout
 
 		block body

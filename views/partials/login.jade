@@ -7,9 +7,9 @@ div.row
 		div.jumbotron
 			form.form-horizontal
 				div.form-group
-					input.form-control(type="email", placeholder="Email", ng-model="loginForm.email")
+					input.form-control(type="text", placeholder="Username", ng-model="loginForm.name")
 				div.form-group
 					input.form-control(type="password", placeholder="Password", ng-model="loginForm.password")
 				div.form-group
 					label.col-sm-offset-2.col-sm-10
-					button.btn.btn-primary(type="submit") Login
+					button.btn.btn-primary(type="submit", ng-click="login(loginForm)") Login
