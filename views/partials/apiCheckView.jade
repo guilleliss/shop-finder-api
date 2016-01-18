@@ -1,40 +1,43 @@
-div.row
-	div.page-header
-		h3 API Check
+include ../includes/header.jade
+div.container(ng-controller='MainController')
+	include ../includes/alerts.jade
+	div.row
+		div.page-header
+			h3 API Check
 
-div.row
-	div.col-md-8.col-md-offset-2
-		h4 Get all shops: 
-			kbd GET api/shops
-		form.form-group
-			div.input-group
-				input.form-control.disabled(type="text", placeholder="api/shops")
-				span.input-group-btn
-					button.btn.btn-primary(type="button", ng-click="getShopsApi()") Send
+	div.row
+		div.col-md-8.col-md-offset-2
+			h4 Get all shops: 
+				kbd GET api/shops
+			form.form-group
+				div.input-group
+					input.form-control.disabled(type="text", placeholder="api/shops")
+					span.input-group-btn
+						button.btn.btn-primary(type="button", ng-click="getShopsApi()") Send
 
-		pre.api-block {{apiShops}}
+			pre.api-block {{apiShops}}
 
-div.row
-	div.col-md-8.col-md-offset-2
-		h4 Get shop by id: 
-			kbd GET api/shops/{id}
-		form.form-group
-			div.input-group
-				input.form-control.disabled(type="text", placeholder="{id}", ng-model="apiCheck.shopId")
-				span.input-group-btn
-					button.btn.btn-primary(type="button", ng-click="getShopByIdApi(apiCheck.shopId)") Send
-				
-		pre.api-block {{apiShop}}
+	div.row
+		div.col-md-8.col-md-offset-2
+			h4 Get shop by id: 
+				kbd GET api/shops/{id}
+			form.form-group
+				div.input-group
+					input.form-control.disabled(type="text", placeholder="{id}", ng-model="apiCheck.shopId")
+					span.input-group-btn
+						button.btn.btn-primary(type="button", ng-click="getShopByIdApi(apiCheck.shopId)") Send
+					
+			pre.api-block {{apiShop}}
 
-div.row
-	div.col-md-8.col-md-offset-2
-		h4 Check if shop exists by source id: 
-		h4 
-			kbd GET api/shops/exists/{source_id}
-		form.form-group
-			div.input-group
-				input.form-control.disabled(type="text", placeholder="{source_id}", ng-model="apiCheck.sourceId")
-				span.input-group-btn
-					button.btn.btn-primary(type="button", ng-click="shopExistsApi(apiCheck.sourceId)") Send
-				
-		pre.api-block {{existsApi}}		
+	div.row
+		div.col-md-8.col-md-offset-2
+			h4 Check if shop exists by source id: 
+			h4 
+				kbd GET api/shops/exists/{source_id}
+			form.form-group
+				div.input-group
+					input.form-control.disabled(type="text", placeholder="{source_id}", ng-model="apiCheck.sourceId")
+					span.input-group-btn
+						button.btn.btn-primary(type="button", ng-click="shopExistsApi(apiCheck.sourceId)") Send
+					
+			pre.api-block {{existsApi}}

@@ -1,8 +1,8 @@
 var app = angular.module('shopApp', [
 	'ngRoute',
 	'ngGPlaces',
-	'ngAnimate',
 	'angular-loading-bar',
+	'ngAnimate',
 	'ui.bootstrap',
 	'ngStorage'
 ]);
@@ -26,8 +26,8 @@ app.config(['$routeProvider',
 		}).
 		when('/login', {
 			templateUrl: 'partials/login',
-			controller: 'MainController'
-		}).		
+			controller: 'AuthController'
+		}).
 		otherwise({
 			redirectTo: '/'
 		});

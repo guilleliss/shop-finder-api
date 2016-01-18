@@ -7,31 +7,48 @@ html(ng-app="shopApp")
 		title Store Finder Dashboard 
 		link(rel='stylesheet', href='/css/style.css')
 		link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap-material.min.css')
-	body(ng-controller='MainController')
-		nav.navbar.navbar-inverse.navbar-fixed-top
-			div.container-fluid
+		link(rel='stylesheet', href='/lib/angular-loading-bar/build/loading-bar.min.css')
+	body
+		block content
 
-				div.navbar-header
-					button.navbar-toggle.collapsed(type="button", ng-init="navCollapsed = true", ng-click="navCollapsed = !navCollapsed")
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a(href="/",class="navbar-brand") Shop Finder
-				div#top-bar.collapse.navbar-collapse.navbar-responsive-collapse(uib-collapse="navCollapsed")
-					ul.nav.navbar-nav
-						li: a(href="/", ng-click="navCollapsed = true") Shops 
-						li: a(href="/googleplaces", ng-click="navCollapsed = true") Google Places
-						li: a(href="/apicheck", ng-click="navCollapsed = true") API Check
+	//- Google Places API
+	script(src='https://maps.googleapis.com/maps/api/js?libraries=places')
 
-					ul.nav.navbar-nav.navbar-right
-						li.uib-dropdown(uib-dropdown)
-							a.uib-dropdown-toggle(href, uib-dropdown-toggle)
-								span.glyphicon.glyphicon-play-circle(aria-hidden="true")
-								|  Access
-							ul.uib-dropdown-menu
-								li: a(href="/login") Login
-								li: a(href="/login") Profile
-								li: a(ng-click="logout()") Logout
+	//- Angular native files
+	script(src='lib/angular/angular.min.js')
+	script(src='lib/angular-route/angular-route.min.js')
+	script(src='lib/angular-animate/angular-animate.min.js')
+	script(src='lib/angularjs-google-places/src/angularjs-google-places.js')
+	
+	//- Angular-Bootstrap files
+	//- script(src='lib/angular-bootstrap/ui-bootstrap.min.js')
+	script(src='lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+		
+	//- Auth files
+	script(src='lib/ngstorage/ngStorage.min.js')
+	script(src='lib/angular-loading-bar/build/loading-bar.min.js')
 
-		block body
+	//- Angular app files
+	script(src='js/app.js')
+
+	//- Angular services
+	script(src='js/services/GPService.js')
+	script(src='js/services/shopsService.js')
+	script(src='js/services/libraryService.js')
+	script(src='js/services/AuthService.js')
+	
+	//- Angular controllers
+	script(src='js/controllers/MainController.js')
+	script(src='js/controllers/ModalInstanceController.js')
+	script(src='js/controllers/ApiCheckController.js')
+	script(src='js/controllers/GPController.js')
+	script(src='js/controllers/ShopsController.js')
+	script(src='js/controllers/AuthController.js')
+
+	//- Angular directives
+	script(src='js/directives/shopDetailsDirective.js')
+	script(src='js/directives/persistedShopDetailsDirective.js')
+	script(src='js/directives/shopPictureDirective.js')
+
+	//- script(src='js/filters.js')
+	script(src='js/scripts.js')

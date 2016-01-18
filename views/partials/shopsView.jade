@@ -1,8 +1,11 @@
-div.row
-	div.page-header
-		h3 Dashboard 
-			span.label.label-info showing {{ shops.length }} shops
+include ../includes/header.jade
+div.container(ng-controller='MainController')
+	include ../includes/alerts.jade
+	div.row
+		div.page-header
+			h3 Dashboard 
+				span.label.label-info showing {{ shops.length }} shops
 
-div.row
-	div.col-xs-12.col-sm-6.col-md-3.col-lg-3.shop-col(ng-repeat="shop in shops")
-		<persisted-shop-details class="animate-shop-repeat" info="shop" delete-shop="deleteShop(id)" get-shop-reviews="getShopReviews(infoId)" launch-shop-details-modal="launchShopDetailsModal(shopInfo)"></persisted-shop-details>
+	div.row
+		div.col-xs-12.col-sm-6.col-md-3.col-lg-3.shop-col(ng-repeat="shop in shops")
+			<persisted-shop-details class="animate-shop-repeat" info="shop" delete-shop="deleteShop(id)" get-shop-reviews="getShopReviews(infoId)" launch-shop-details-modal="launchShopDetailsModal(shopInfo)"></persisted-shop-details>

@@ -4,10 +4,8 @@ app.controller('MainController', [
 	'shopsService', 
 	'libraryService',
 	'$uibModal',
-	'$location',
-	'$localStorage',
 	'AuthService',
-	function($scope, $timeout, shopsService, libraryService, $uibModal, $location, $localStorage, AuthService) {
+	function($scope, $timeout, shopsService, libraryService, $uibModal, AuthService) {
 
 	/* Alerts should be managed in a separate controller/service */
 	$scope.alerts = [];
@@ -28,31 +26,6 @@ app.controller('MainController', [
 	$scope.callSetImgSize = libraryService.setImgSize;
 
 	$scope.formData = {};
-
-	/* Auth stuff */
-	function successAuth(res) {
-		$localStorage.token = res.token;
-		window.location = "/";
-	}
-
-	$scope.login = function(loginForm) {
-		AuthService.login(loginForm, successAuth, function () {
-			// $rootScope.error = 'Invalid credentials.';
-			console.log('Invalid credentials.');
-		});
-	};
-
-	$scope.logout = function() {
-		AuthService.logout(function () {
-			console.log("Successfully logged out");
-			window.location = "/login";
-		});
-	};
-
-	$scope.token = $localStorage.token;
-	$scope.tokenClaims = AuthService.getTokenClaims();
-	/* End auth stuff */
-
 
 	/* Set data functions using the service */
 	$scope.updateShops = function() {
