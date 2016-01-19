@@ -13,30 +13,6 @@ var User = mongoose.model('User');
 
 var ngeohash = require('ngeohash');
 
-/* Creates a user, should be removed */
-router.get('/setup', function(req, res) {
-
-	User.remove({}, function(err) {
-		var hashedpass = passwordHash.generate('j3/nTB5(s?=+h6zv');
-
-		// create a sample user
-		var tappasuser = new User({ 
-			name: 'tappas', 
-			password: hashedpass,
-			email: 'hello@barkalastudios.com',
-			admin: true 
-		});
-
-		// save the sample user
-		tappasuser.save(function(err) {
-			if (err) throw err;
-
-			console.log('User saved successfully');
-			res.json({ success: true });
-		});
-	});
-});
-
 /* 
  * Authentication route, validates user and
  * returns token
@@ -182,7 +158,7 @@ function saveNewShop(shop_info, newShop) {
 /* Get a shop detail by id, but not its reviews  */
 router.get('/shops/:shop_id', function(req, res) {
 	Shop.findById(
-		req.params.shop_id, 
+		req.params.shop_id,
 		function (err, data) {
 			if (err) return console.error(err);
 			res.json(data);
@@ -390,6 +366,50 @@ router.get('/updateData', function(req, res) {
 
 		res.json({ message: 'All data updated' });
 	});
+});
+
+/* Get all users */
+router.get('/users', function(req, res) {
+	User.find({}, function(err, users) {
+		if (err) return console.error(err);
+		res.json(users);		
+	});
+});
+
+router.get('/users/:user_id', function(req, res) {
+	User.findById(
+		req.params.user_id,
+		function (err, data) {
+			if (err) return console.error(err);
+			res.json(data);
+	});	
+});
+
+router.post('/users', function(req, res) {
+	var new_user = new User({ 
+		name: req.body.name, 
+		password: passwordHash.generate(req.body.password),
+		email: req.body.email,
+		admin: false
+	});
+
+	new_user.save(function(err) {
+		if (err) throw err;
+		console.log('User saved successfully');
+		res.json({ success: true });
+	});
+});
+
+router.delete('/users/:user_id', function(req, res) {
+	User.remove({
+		_id: req.params.user_id
+	}, function (err, data) {
+		if (err) {
+			res.send(err);
+			return;
+		}
+		res.json(data);
+	});		
 });
 
 /* 

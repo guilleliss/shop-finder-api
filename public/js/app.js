@@ -24,6 +24,10 @@ app.config(['$routeProvider',
 			templateUrl: 'partials/apiCheckView',
 			controller: 'ApiCheckController'
 		}).
+		when('/users', {
+			templateUrl: 'partials/usersView',
+			controller: 'UsersController'
+		}).
 		when('/login', {
 			templateUrl: 'partials/login',
 			controller: 'AuthController'

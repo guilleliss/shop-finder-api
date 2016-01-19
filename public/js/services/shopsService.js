@@ -1,7 +1,5 @@
 app.factory('shopsService', ['$http', function($http) {
 
-	ss = this;
-
 	this.getShops = function() {
 		return $http.get('/api/shops/')
 			.success(function(data) {
@@ -86,7 +84,7 @@ app.factory('shopsService', ['$http', function($http) {
 		update: this.updateShop,
 		delete: this.deleteShop,
 		exists: this.shopExists,
-		getShopReviews: this.getShopReviews,
+		getShopReviews: this.getShopReviews
 	}
 
 }]);

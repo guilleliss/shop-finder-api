@@ -51,7 +51,6 @@ app.controller('MainController', [
 		}
 	};
 
-
 	$scope.saveShop = function(shopToSave) {
 
 		return shopsService.create(shopToSave)
