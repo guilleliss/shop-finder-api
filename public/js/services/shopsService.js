@@ -77,6 +77,17 @@ app.factory('shopsService', ['$http', function($http) {
 			});
 	};
 
+	this.updateShops = function(id) {
+		return $http.get('/api/updateData/')
+			.success(function(data) {
+				return data;
+			})
+			.error(function(err) {
+				console.log(err);
+				return err;
+			});
+	};	
+
 	return {
 		get: this.getShops,
 		getById: this.getShopById,
@@ -84,7 +95,8 @@ app.factory('shopsService', ['$http', function($http) {
 		update: this.updateShop,
 		delete: this.deleteShop,
 		exists: this.shopExists,
-		getShopReviews: this.getShopReviews
+		getShopReviews: this.getShopReviews,
+		updateShops: this.updateShops
 	}
 
 }]);
