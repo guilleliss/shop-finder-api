@@ -277,7 +277,7 @@ router.get('/settings', function(req, res) {
 		share: {
 			appShareImageLink: "http://www.picturescolourlibrary.co.uk/loreswithlogo/1917011.jpg",
 			appShareMessage: "Tappas, la aplicación mas copada del universo. Comparte con amigos y perros!",
-			appShareLink: "www.barkalastudios.com"
+			appShareLink: "http://barkalastudios.com"
 		},
 		table: {
 			backgroundColor: "#FFFFFF",
@@ -286,46 +286,46 @@ router.get('/settings', function(req, res) {
 				data: [
 					{ 
 						title : "Help and Feedback",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 11, color : "#2CA390"},
 						action : { type: "link", data:"http://barkalastudios.com"}
 					},
 					{
 						title : "Email Us",
-						icon: { class: 1, type: 1, color : "#2CA390"},
-						action : { type: "dlink", data : { dlink:"mailto:hello@barkalastudios.com?subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!"}}
+						icon: { class: 1, type: 13, color : "#2CA390"},
+						action : { type: "dlink", data : { dlink:"mailto:hello@gettappas.com?subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!"}}
 
 					},
 					{   
 						title : "Add Features",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 3, color : "#2CA390"},
 						action : { type: "mail", data : { to:"hello@gettappas.com", subject:"Email Us", body:"html body"}}
 					} 
 				]},
 				{ name: "SOCIAL",  data: [
 					{ 
 						title : "Rate this App",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 4, color : "#2CA390"},
 						action : { type:"dlink", data :{dlink:"http://itunes.apple.com/app/id378458261",
 						   link:"http://itunes.apple.com/app/id378458261", appName:"App Store"}}
 					},
 					{
 						title : "Follow Us on Twitter",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 150, color : "#2CA390"},
 						action : { type:"dlink", data:{ dlink:"twitter:///user?screen_name=spiritsciences",link:"https://twitter.com/spiritsciences", appName:"Twitter"}}
 					},
 					{
 						title : "Like Us on Facebook",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 100, color : "#2CA390"},
 						action : { type:"dlink", data:{ dlink:"fb://profile/113810631976867", link:"https://www.facebook.com/thespiritscience", appName:"Facebook"}}
 					},
 					{
 						title : "Terms of Service",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 197, color : "#2CA390"},
 						action : { type:"link", data:"http://barkalastudios.com"}
 					},
 					{
 						title : "Privacy Policy",
-						icon: { class: 1, type: 1, color : "#2CA390"},
+						icon: { class: 1, type: 5, color : "#2CA390"},
 						action : { type:"link", data:"http://barkalastudios.com"}
 					}
 				]}
