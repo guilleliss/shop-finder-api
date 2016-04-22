@@ -236,6 +236,21 @@ router.delete('/shops/:shop_id', function(req, res) {
 	});
 });
 
+router.post('/users', function(req, res) {
+	var new_user = new User({
+		name: req.body.name,
+		password: passwordHash.generate(req.body.password),
+		email: req.body.email,
+		admin: false
+	});
+
+	new_user.save(function(err) {
+		if (err) throw err;
+		console.log('User saved successfully');
+		res.json({ success: true });
+	});
+});
+
 /* Empty the DB, removes all shops, reviews and cities */
 router.get('/removeall', function(req, res) {
 	City.remove({}, function(err) { 
@@ -301,33 +316,35 @@ router.get('/settings', function(req, res) {
 						action : { type: "mail", data : { to:"hello@gettappas.com", subject:"Email Us", body:"html body"}}
 					} 
 				]},
-				{ name: "SOCIAL",  data: [
-					{ 
-						title : "Rate this App",
-						icon: { class: 1, type: 4, color : "#2CA390"},
-						action : { type:"dlink", data :{dlink:"http://itunes.apple.com/app/id378458261",
-						   link:"http://itunes.apple.com/app/id378458261", appName:"App Store"}}
-					},
-					{
-						title : "Follow Us on Twitter",
-						icon: { class: 1, type: 150, color : "#2CA390"},
-						action : { type:"dlink", data:{ dlink:"twitter:///user?screen_name=spiritsciences",link:"https://twitter.com/spiritsciences", appName:"Twitter"}}
-					},
-					{
-						title : "Like Us on Facebook",
-						icon: { class: 1, type: 100, color : "#2CA390"},
-						action : { type:"dlink", data:{ dlink:"fb://profile/113810631976867", link:"https://www.facebook.com/thespiritscience", appName:"Facebook"}}
-					},
-					{
-						title : "Terms of Service",
-						icon: { class: 1, type: 197, color : "#2CA390"},
-						action : { type:"link", data:"http://barkalastudios.com"}
-					},
-					{
-						title : "Privacy Policy",
-						icon: { class: 1, type: 5, color : "#2CA390"},
-						action : { type:"link", data:"http://barkalastudios.com"}
-					}
+				{	
+					name: "SOCIAL",
+					data: [
+						{
+							title : "Rate this App",
+							icon: { class: 1, type: 4, color : "#2CA390"},
+							action : { type:"dlink", data :{dlink:"http://itunes.apple.com/app/id378458261",
+							   link:"http://itunes.apple.com/app/id378458261", appName:"App Store"}}
+						},
+						{
+							title : "Follow Us on Twitter",
+							icon: { class: 1, type: 150, color : "#2CA390"},
+							action : { type:"dlink", data:{ dlink:"twitter:///user?screen_name=spiritsciences",link:"https://twitter.com/spiritsciences", appName:"Twitter"}}
+						},
+						{
+							title : "Like Us on Facebook",
+							icon: { class: 1, type: 100, color : "#2CA390"},
+							action : { type:"dlink", data:{ dlink:"fb://profile/113810631976867", link:"https://www.facebook.com/thespiritscience", appName:"Facebook"}}
+						},
+						{
+							title : "Terms of Service",
+							icon: { class: 1, type: 197, color : "#2CA390"},
+							action : { type:"link", data:"http://barkalastudios.com"}
+						},
+						{
+							title : "Privacy Policy",
+							icon: { class: 1, type: 5, color : "#2CA390"},
+							action : { type:"link", data:"http://barkalastudios.com"}
+						}
 				]}
 			]}
 	};
@@ -394,21 +411,6 @@ router.get('/users/:user_id', function(req, res) {
 			if (err) return console.error(err);
 			res.json(data);
 	});	
-});
-
-router.post('/users', function(req, res) {
-	var new_user = new User({ 
-		name: req.body.name, 
-		password: passwordHash.generate(req.body.password),
-		email: req.body.email,
-		admin: false
-	});
-
-	new_user.save(function(err) {
-		if (err) throw err;
-		console.log('User saved successfully');
-		res.json({ success: true });
-	});
 });
 
 router.delete('/users/:user_id', function(req, res) {
