@@ -5,23 +5,9 @@ app.controller('MainController', [
 	'libraryService',
 	'$uibModal',
 	'AuthService',
-	function($scope, $timeout, shopsService, libraryService, $uibModal, AuthService) {
-
-	/* Alerts should be managed in a separate controller/service */
-	$scope.alerts = [];
-
-	$scope.closeAlert = function(index) {
-		$scope.alerts.splice(index, 1);
-	};
-
-	$scope.addAlert = function(type, msg) {
-		var newAlert = {type: type, msg: msg};
-		var newLength = $scope.alerts.push(newAlert);
-		$timeout(function() {
-			$scope.alerts.splice($scope.alerts.indexOf(newAlert), 1);
-		}, 3000);
-	}
-	/* End alerts */
+	'AlertService',
+	function($scope, $timeout, shopsService, libraryService, 
+		$uibModal, AuthService, AlertService) {
 
 	$scope.callSetImgSize = libraryService.setImgSize;
 
@@ -51,24 +37,10 @@ app.controller('MainController', [
 		}
 	};
 
-	$scope.saveShop = function(shopToSave) {
-
-		return shopsService.create(shopToSave)
-			.success(function(savedData) {
-				console.log("Data saved!");
-				$scope.addAlert('success','Shop saved!');
-				$scope.updateShops();
-				return true;
-			})
-			.error(function(err) {
-				console.log(err);
-			});
-	};
-
 	$scope.updateShop = function(shopInfo) {
 		return shopsService.update(shopInfo)
 			.success(function(data) {
-				$scope.addAlert("info", "Shop updated successfully.")
+				$scope.alerts = AlertService.add("info", "Shop updated successfully.")
 				$scope.updateShops();
 			})
 			.error(function(err) {
@@ -79,24 +51,13 @@ app.controller('MainController', [
 	$scope.deleteShop = function(shopId) {
 		return shopsService.delete(shopId)
 			.success(function(data) {
-				$scope.addAlert("danger", "Shop deleted successfully.")
+				$scope.alerts = AlertService.add("danger", "Shop deleted successfully.")
 				$scope.updateShops();
 			})
 			.error(function(err) {
 				console.log(err);
 			});
 	};
-
-	$scope.shopExists = function(shopId) {
-		return shopsService.exists(shopId)
-			.success(function(shopIsInDatabase) {
-				return shopIsInDatabase;
-			})
-			.error(function(err) {
-				console.log(err);
-				return false;
-			});
-	}
 
 	$scope.getShopReviews = function(shopId) {
 		return shopsService.getShopReviews(shopId)
