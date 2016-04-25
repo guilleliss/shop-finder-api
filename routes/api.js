@@ -64,7 +64,7 @@ router.use(function(req, res, next) {
 				return res.json({ success: false, message: 'Failed to authenticate token.' });    
 			} else {
 				// if everything is good, save to request for use in other routes
-				req.decoded = decoded;    
+				req.decoded = decoded;
 				next();
 			}
 		});
@@ -101,7 +101,6 @@ router.get('/shops', function(req, res) {
 router.post('/shops', function(req, res) {
 
 	var newShop = new Shop();
-
 	saveNewShop(req.body, newShop);
 
 	newShop.save(function(err, shop) {
@@ -132,7 +131,6 @@ router.post('/shops', function(req, res) {
 function saveNewShop(shop_info, newShop) {
 
 	var reviews = shop_info.reviews;
-
 	var geohash = encodeCoords(shop_info.geometry.location);
 
 	newShop.name = shop_info.name;
@@ -141,7 +139,6 @@ function saveNewShop(shop_info, newShop) {
 	newShop.phone_number = shop_info.international_phone_number;
 	newShop.opening_hours = shop_info.opening_hours;
 	newShop.website = shop_info.website;
-	newShop.photos = shop_info.photos[0].photo_reference ? retrieveNewPhotos(shop_info.photos) : shop_info.photos;
 	newShop.city = shop_info.city;
 	newShop.geolocation = {
 			geohash: geohash,
@@ -153,14 +150,23 @@ function saveNewShop(shop_info, newShop) {
 	newShop.rating = shop_info.rating ? shop_info.rating : 0;
 	newShop.price_level = shop_info.price_level ? shop_info.price_level : 0;
 	newShop.reviews_count = reviews ? reviews.length : 0;
+
+	if(shop_info.photos && shop_info.photos.length > 0) 
+		newShop.photos = shop_info.photos[0].photo_reference ? retrieveNewPhotos(shop_info.photos) : shop_info.photos;
+	else 
+		newShop.photos = [];
 }
 
 /* Get a shop detail by id, but not its reviews  */
-router.get('/shops/:shop_id', function(req, res) {
+router.get('/shops/:shop_id', function(req, res, next) {
 	Shop.findById(
 		req.params.shop_id,
 		function (err, data) {
-			if (err) return console.error(err);
+			if (err) {
+				console.error(err);
+				return next(err);
+			}
+				// return res.status(500).send({ message: "No id provided"}); 
 			res.json(data);
 	});	
 });
@@ -173,7 +179,10 @@ router.put('/shops/:shop_id', function(req, res) {
 			description: req.body.description
 		},
 		function (err, data) {
-			if (err) return console.error(err);
+			if (err) {
+				console.error(err);
+				return next(err);
+			}
 			res.json(data);
 	});	
 });
@@ -182,7 +191,10 @@ router.put('/shops/:shop_id', function(req, res) {
 router.get('/reviews', function(req, res) {
 	Review.find({
 	}, function (err, data) {
-		if (err) return console.error(err);
+		if (err) {
+			console.error(err);
+			return next(err);
+		}
 		res.json(data);
 	});	
 });
@@ -192,7 +204,10 @@ router.get('/shops/:shop_id/reviews', function(req, res) {
 	Review.find({
 		shop_id: req.params.shop_id 
 	}, function (err, data) {
-		if (err) return console.error(err);
+		if (err) {
+			console.error(err);
+			return next(err);
+		}
 		res.json(data);
 	});
 });
@@ -205,13 +220,18 @@ router.get('/shops/exists/:source_id', function(req, res) {
 		source_id: req.params.source_id
 	},
 	function (err, data) {
-		if (err) return console.error(err);
+		if (err) {
+			console.error(err);
+			return next(err);
+		}
 		res.json(data.length > 0);
 	});
 });
 
 /* Remove a stored shop given its id */
 router.delete('/shops/:shop_id', function(req, res) {
+	if(req.params.shop_id === undefined) return console.error("No _id provided" ); 
+
 	Shop.remove({
 		_id: req.params.shop_id
 	}, function (err, data) {
