@@ -301,12 +301,12 @@ router.get('/settings', function(req, res) {
 				data: [
 					{ 
 						title : "Help and Feedback",
-						icon: { class: 1, type: 11, color : "#2CA390"},
+						icon: { class: 1, type: 11, color : "#FFCC00"},
 						action : { type: "link", data:"http://barkalastudios.com"}
 					},
 					{
 						title : "Email Us",
-						icon: { class: 1, type: 13, color : "#2CA390"},
+						icon: { class: 1, type: 13, color : "#006699"},
 						action : { type: "dlink", data : { dlink:"mailto:hello@gettappas.com?subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!"}}
 
 					},
@@ -321,28 +321,28 @@ router.get('/settings', function(req, res) {
 					data: [
 						{
 							title : "Rate this App",
-							icon: { class: 1, type: 4, color : "#2CA390"},
+							icon: { class: 1, type: 4, color : "#E60073"},
 							action : { type:"dlink", data :{dlink:"http://itunes.apple.com/app/id378458261",
 							   link:"http://itunes.apple.com/app/id378458261", appName:"App Store"}}
 						},
 						{
 							title : "Follow Us on Twitter",
-							icon: { class: 1, type: 150, color : "#2CA390"},
+							icon: { class: 1, type: 150, color : "#4099FF"},
 							action : { type:"dlink", data:{ dlink:"twitter:///user?screen_name=spiritsciences",link:"https://twitter.com/spiritsciences", appName:"Twitter"}}
 						},
 						{
 							title : "Like Us on Facebook",
-							icon: { class: 1, type: 100, color : "#2CA390"},
+							icon: { class: 1, type: 100, color : "#3B5998"},
 							action : { type:"dlink", data:{ dlink:"fb://profile/113810631976867", link:"https://www.facebook.com/thespiritscience", appName:"Facebook"}}
 						},
 						{
 							title : "Terms of Service",
-							icon: { class: 1, type: 197, color : "#2CA390"},
+							icon: { class: 1, type: 197, color : "#006600"},
 							action : { type:"link", data:"http://barkalastudios.com"}
 						},
 						{
 							title : "Privacy Policy",
-							icon: { class: 1, type: 5, color : "#2CA390"},
+							icon: { class: 1, type: 5, color : "#cc3300"},
 							action : { type:"link", data:"http://barkalastudios.com"}
 						}
 				]}
