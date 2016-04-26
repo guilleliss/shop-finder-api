@@ -10,8 +10,11 @@ var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
 
 require('./db');
 
-var api = require('./routes/api');
-var dashboard = require('./routes/dashboard');
+var api_auth = require('./routes/api_auth');
+var api_shops = require('./routes/api_shops');
+var api_users = require('./routes/api_users');
+var api_settings = require('./routes/api_settings');
+var index = require('./routes/index');
 
 var app = express();
 
@@ -28,8 +31,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', api);
-app.use('/', dashboard);
+app.use('/api', api_auth);
+app.use('/api', api_shops);
+app.use('/api/users', api_users);
+app.use('/api/settings', api_settings);
+app.use('/', index);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -61,13 +67,9 @@ app.use(function(err, req, res, next) {
     res.send(500, {
         status: 500, 
         message: err.message, 
-        type: 'internal'
+        type: 'internal',
+        code: err.code
     });
 });
-
-// app.use(function errorHandler(err, req, res, next) {
-//     res.status(500);
-//     res.render('error', { error: err });
-// });
 
 module.exports = app;

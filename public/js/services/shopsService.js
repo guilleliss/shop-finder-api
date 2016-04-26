@@ -56,7 +56,7 @@ app.factory('shopsService', ['$http', function($http) {
 	};
 
 	this.shopExists = function(sourceId) {
-		return $http.get('/api/shops/exists/' + sourceId)
+		return $http.get('/api/shops/exists/' + sourceId + '/')
 			.success(function(data) {
 				return data;
 			})
