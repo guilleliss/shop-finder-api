@@ -12,7 +12,7 @@ Requires [mongoDB](https://www.mongodb.org/).
 	$ npm install
 	$ npm start
 
-Then point the browser to `http://localhost:3000`.
+Then point browser to `http://localhost:3000`.
 
 ## Test
 
@@ -23,5 +23,4 @@ Only API tests at the moment
 
 ## Improvements
 
-* Add authentication
-* Test test test
+* More tests
