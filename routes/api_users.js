@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = require('../app');
 
-var jwt = require('jsonwebtoken');
-var passwordHash = require('password-hash');
-
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 

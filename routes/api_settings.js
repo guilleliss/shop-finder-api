@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = require('../app');
 
-var mongoose = require('mongoose');
-
 /* Get settings for the client app */
 router.get('/', function(req, res) {
 	// TODO: This information should be persisted and updated from the UI
