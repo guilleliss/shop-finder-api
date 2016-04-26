@@ -148,6 +148,26 @@ describe('Shop', function () {
 		});
 	});
 
+	it('should return that shop exists', function (done) {
+		api.get('/shops/exists/' + shop1.source_id + '/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).true;
+			done();
+		});
+	});
+
+	it('should return that shop does not exist', function (done) {
+		api.get('/shops/exists/' + 'random_source_id' + '/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).false;
+			done();
+		});
+	});
+
 	it('should return list of two shop reviews', function (done) {
 		api.get('/shops/' + shop1._id + '/reviews/')
 		.set({'Accept': 'application/json', 'x-access-token': token})	
@@ -158,4 +178,25 @@ describe('Shop', function () {
 			done();
 		});
 	});
+
+	it('should return list of all reviews', function (done) {
+		api.get('/reviews/')
+		.set({'Accept': 'application/json', 'x-access-token': token})	
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('array');
+			done();
+		});
+	});
+
+	it('should return list of cities', function (done) {
+		api.get('/cities/')
+		.set({'Accept': 'application/json', 'x-access-token': token})	
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('array');
+			done();
+		});
+	});
+
 })

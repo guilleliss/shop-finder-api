@@ -261,13 +261,12 @@ router.post('/users', function(req, res) {
 		name: req.body.name,
 		password: passwordHash.generate(req.body.password),
 		email: req.body.email,
-		admin: false
+		admin: req.body.admin
 	});
 
 	new_user.save(function(err) {
 		if (err) throw err;
-		console.log('User saved successfully');
-		res.json({ success: true });
+		res.json(new_user);
 	});
 });
 
