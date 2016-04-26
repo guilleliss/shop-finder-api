@@ -18,66 +18,103 @@ describe('Shop', function () {
 		.expect(200)
 		.end(function(err, res) {
 			token = res.body.token;
-			api.post('/shops')
-			.set({'Accept': 'application/json', 'x-access-token': token})
-			.send({
-				name: 'Test name',
-				formatted_address: 'Test address',
-				international_phone_number: '00012341243',
-				opening_hours: {
-					weekday_text: [
-						"monday 0 to 12",
-						"tuesday 0 to 12",
-						"wednesday 0 to 12",
-						"thursday 0 to 12",
-						"friday 0 to 12",
-						"saturday 0 to 12",
-						"sunday closed"
-					]
-				},
-				photos: ['http://urlphoto1.com', 'http://urlphoto1.com'],
-				geometry: {
-					location: {				
-						lat: 0,
-						lng: 0,
-					},
-					geohash: 'testhash'
-				},
-				source: "Google",
-				source_id: 'Test source id',
-				rating: 3,
-				price_level: 3.5,
-				website: 'www.testwebsite.com',
-				reviews: [
-					{
-						"rating": 4,
-						"text": "test review 1",
-						"time": 1348790400
-					},
-					{
-						"rating": 5,
-						"text": "test review 2",
-						"time": 1433514218
-					}
-				]
-			})
-			.expect('Content-type', /json/)
-			.expect(200)
-			.end(function(err, res) {
-				shop1 = res.body;
-				done();
-			});
+			done();
 		});
 	});
 
 	after(function(done) {
-		api.delete('/shops/'+shop1._id + '/')
+		done();
+	});
+
+	it('should return _id when on shop created', function (done) {
+		api.post('/shops')
 		.set({'Accept': 'application/json', 'x-access-token': token})
+		.send({
+			name: 'Test name',
+			formatted_address: 'Test address',
+			international_phone_number: '00012341243',
+			opening_hours: {
+				weekday_text: [
+					"monday 0 to 12",
+					"tuesday 0 to 12",
+					"wednesday 0 to 12",
+					"thursday 0 to 12",
+					"friday 0 to 12",
+					"saturday 0 to 12",
+					"sunday closed"
+				]
+			},
+			photos: ['http://urlphoto1.com', 'http://urlphoto1.com'],
+			geometry: {
+				location: {				
+					lat: 0,
+					lng: 0,
+				},
+				geohash: 'testhash'
+			},
+			source: "Google",
+			source_id: 'Test source id',
+			rating: 3,
+			price_level: 3.5,
+			website: 'www.testwebsite.com',
+			reviews: [
+				{
+					"rating": 4,
+					"text": "test review 1",
+					"time": 1348790400
+				},
+				{
+					"rating": 5,
+					"text": "test review 2",
+					"time": 1433514218
+				}
+			]
+		})
 		.expect('Content-type', /json/)
 		.expect(200)
 		.end(function(err, res) {
+			shop1 = res.body;
+			expect(res.body).to.have.property('_id')
+				.that.is.a('string');
 			done();
-		});
+		});	
+	});
+
+	it('should return error when creating duplicated source_id', function (done) {
+		api.post('/shops')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.send({
+			name: 'Test name',
+			formatted_address: 'Test address',
+			international_phone_number: '00012341243',
+			opening_hours: {
+				weekday_text: []
+			},
+			photos: ['http://urlphoto1.com', 'http://urlphoto1.com'],
+			geometry: {
+				location: {				
+					lat: 0,
+					lng: 0,
+				},
+				geohash: 'testhash'
+			},
+			source: "Google",
+			source_id: 'Test source id',
+			rating: 3,
+			price_level: 3.5,
+			website: 'www.testwebsite.com',
+			reviews: []
+		})
+		.expect('Content-type', /json/)
+		.expect(500)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('code')
+			.to.equal(11000);
+			expect(res.body).to.have.property('status')
+			.to.equal(500);
+			done();
+		});	
 	});
 
 	it('list should return a 200 response', function (done) {
@@ -136,6 +173,18 @@ describe('Shop', function () {
 		});
 	});
 
+	it('should return that shop does not exist', function (done) {
+		api.get('/shops/' + 'random_shop_id' + '/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect(500)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('status')
+			.to.equal(500);
+			done();
+		});
+	});
+
 	it('should return shop details with two photo urls', function (done) {
 		api.get('/shops/' + shop1._id + '/')
 		.set({'Accept': 'application/json', 'x-access-token': token})
@@ -158,7 +207,7 @@ describe('Shop', function () {
 		});
 	});
 
-	it('should return that shop does not exist', function (done) {
+	it('should return that shop does not exist with random id', function (done) {
 		api.get('/shops/exists/' + 'random_source_id' + '/')
 		.set({'Accept': 'application/json', 'x-access-token': token})
 		.expect(200)
@@ -199,4 +248,34 @@ describe('Shop', function () {
 		});
 	});
 
-})
+	it('should return shop n=1 when deleting exisiting shop', function (done) {
+		api.delete('/shops/'+shop1._id + '/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect('Content-type', /json/)
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('ok')
+				.to.equal(1);
+			expect(res.body).to.have.property('n')
+				.to.equal(1);
+			done();
+		});
+	});
+
+	it('should return shop n=0 when deleting non-exisiting shop', function (done) {
+		api.delete('/shops/'+shop1._id + '/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect('Content-type', /json/)
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('ok')
+				.to.equal(1);
+			expect(res.body).to.have.property('n')
+				.to.equal(0);
+			done();
+		});
+	});
+
+});

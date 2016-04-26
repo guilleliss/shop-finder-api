@@ -44,10 +44,12 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
+        res.status(err.status || 500)
+        .send({
+            status: 500, 
+            message: err.message, 
+            type: 'internal',
+            code: err.code
         });
     });
 }
@@ -56,11 +58,16 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+    res.send(500, {
+        status: 500, 
+        message: err.message, 
+        type: 'internal'
     });
 });
 
+// app.use(function errorHandler(err, req, res, next) {
+//     res.status(500);
+//     res.render('error', { error: err });
+// });
 
 module.exports = app;

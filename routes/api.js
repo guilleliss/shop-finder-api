@@ -98,16 +98,13 @@ router.get('/shops', function(req, res) {
 });
 
 /* Save a new shop, and its reviews */
-router.post('/shops', function(req, res) {
+router.post('/shops', function(req, res, next) {
 
 	var newShop = new Shop();
 	saveNewShop(req.body, newShop);
 
 	newShop.save(function(err, shop) {
-		if (err) {
-			console.log("error:" + err);
-			res.send(err);
-		}
+		if (err) { return next(err); }
 
 		/* We save the shop city if still not in the database */
 		var newCity = new City({
@@ -162,17 +159,13 @@ router.get('/shops/:shop_id', function(req, res, next) {
 	Shop.findById(
 		req.params.shop_id,
 		function (err, data) {
-			if (err) {
-				console.error(err);
-				return next(err);
-			}
-				// return res.status(500).send({ message: "No id provided"}); 
+			if (err) { return next(err); }
 			res.json(data);
 	});	
 });
 
 /* Updates a shop details */
-router.put('/shops/:shop_id', function(req, res) {
+router.put('/shops/:shop_id', function(req, res, next) {
 	Shop.findByIdAndUpdate(
 		req.params.shop_id,
 		{
@@ -188,26 +181,20 @@ router.put('/shops/:shop_id', function(req, res) {
 });
 
 /* Get all reviews  */
-router.get('/reviews', function(req, res) {
+router.get('/reviews', function(req, res, next) {
 	Review.find({
 	}, function (err, data) {
-		if (err) {
-			console.error(err);
-			return next(err);
-		}
+		if (err) { return next(err); }
 		res.json(data);
 	});	
 });
 
 /* Get a list of a shop's reviews */
-router.get('/shops/:shop_id/reviews', function(req, res) {
+router.get('/shops/:shop_id/reviews', function(req, res, next) {
 	Review.find({
 		shop_id: req.params.shop_id 
 	}, function (err, data) {
-		if (err) {
-			console.error(err);
-			return next(err);
-		}
+		if (err) { return next(err); }
 		res.json(data);
 	});
 });
@@ -215,48 +202,36 @@ router.get('/shops/:shop_id/reviews', function(req, res) {
 /* Check if a shop exists given its source id
  * (ie, Google Places ID)
  */
-router.get('/shops/exists/:source_id', function(req, res) {
+router.get('/shops/exists/:source_id', function(req, res, next) {
 	Shop.find({
 		source_id: req.params.source_id
 	},
 	function (err, data) {
-		if (err) {
-			console.error(err);
-			return next(err);
-		}
+		if (err) { return next(err); }
 		res.json(data.length > 0);
 	});
 });
 
 /* Remove a stored shop given its id */
-router.delete('/shops/:shop_id', function(req, res) {
+router.delete('/shops/:shop_id', function(req, res, next) {
 	if(req.params.shop_id === undefined) return console.error("No _id provided" ); 
 
 	Shop.remove({
 		_id: req.params.shop_id
-	}, function (err, data) {
-		if (err) {
-			res.send(err);
-			return;
-		}
+	}, function (err, shopData) {
+		if (err) return next(err);
 
 		/* We remove all its reviews as well */
 		Review.remove({
 			shop_id: req.params.shop_id
 		}, function (err, data) {
-			if (err) {
-				res.send(err);
-				return;
-			}
-			// console.log(data);
-			res.json(data);
+			if (err) return next(err);
+			res.json(shopData);
 		});
-
-		// res.json(data);
 	});
 });
 
-router.post('/users', function(req, res) {
+router.post('/users', function(req, res, next) {
 	var new_user = new User({
 		name: req.body.name,
 		password: passwordHash.generate(req.body.password),
@@ -265,7 +240,7 @@ router.post('/users', function(req, res) {
 	});
 
 	new_user.save(function(err) {
-		if (err) throw err;
+		if (err) return next(err);
 		res.json(new_user);
 	});
 });
@@ -282,9 +257,9 @@ router.get('/removeall', function(req, res) {
 });
 
 /* Get a list of the available cities */
-router.get('/cities', function(req, res) {
+router.get('/cities', function(req, res, next) {
 	City.find({}, function (err, data) {
-		if (err) return console.error(err);
+		if (err) return next(err);
 		res.json(data);
 	});
 });
@@ -372,9 +347,9 @@ router.get('/settings', function(req, res) {
 });
 
 /* Update data retrieved from google places */
-router.get('/updateData', function(req, res) {
+router.get('/updateData', function(req, res, next) {
 	Shop.find({}, function (err, data) {
-		if (err) return console.error(err);
+		if (err) return next(err);
 				
 		data.forEach(function(shop) {
 			locations.details({placeid: shop.source_id},
@@ -416,30 +391,27 @@ router.get('/updateData', function(req, res) {
 });
 
 /* Get all users */
-router.get('/users', function(req, res) {
+router.get('/users', function(req, res, next) {
 	User.find({}, function(err, users) {
-		if (err) return console.error(err);
+		if (err) return next(err);
 		res.json(users);		
 	});
 });
 
-router.get('/users/:user_id', function(req, res) {
+router.get('/users/:user_id', function(req, res, next) {
 	User.findById(
 		req.params.user_id,
 		function (err, data) {
-			if (err) return console.error(err);
+			if (err) return next(err);
 			res.json(data);
 	});	
 });
 
-router.delete('/users/:user_id', function(req, res) {
+router.delete('/users/:user_id', function(req, res, next) {
 	User.remove({
 		_id: req.params.user_id
 	}, function (err, data) {
-		if (err) {
-			res.send(err);
-			return;
-		}
+		if (err) { return next(err); }
 		res.json(data);
 	});		
 });
@@ -471,7 +443,6 @@ function retrieveNewReviews(shop, remote_shop) {
 					newReview.save(function(err, review) {
 						if (err) {
 							console.log("error:" + err);
-							// res.send(err);
 						}
 					});
 
