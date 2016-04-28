@@ -33,16 +33,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(__dirname + '/public/ios.log', {flags: 'a'});
+var accessLogStream = fs.createWriteStream(__dirname + '/public/access.log', {flags: 'a'});
 
 // setup the logger
-app.use(logger('combined', {
-    stream: accessLogStream,
-    skip: function (req, res) { 
-        if(!req.headers['user-agent']) return true;
-        return !req.headers['user-agent'].includes('OS Version'); 
-    }
-}));
+app.use(logger('combined', { stream: accessLogStream }));
 
 app.use('/api', api_auth);
 app.use('/api', api_shops);
