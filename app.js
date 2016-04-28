@@ -39,6 +39,7 @@ var accessLogStream = fs.createWriteStream(__dirname + '/public/ios.log', {flags
 app.use(logger('combined', {
     stream: accessLogStream,
     skip: function (req, res) { 
+        if(!req.headers['user-agent']) return true;
         return !req.headers['user-agent'].includes('OS Version'); 
     }
 }));
