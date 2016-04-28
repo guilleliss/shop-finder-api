@@ -4,6 +4,7 @@ var app = require('../app');
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var passwordHash = require('password-hash');
 
 /**
  * Saves a new user.
