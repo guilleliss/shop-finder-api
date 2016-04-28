@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var GooglePlaces = require('google-places');
 var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
@@ -30,6 +31,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(__dirname + '/public/ios.log', {flags: 'a'});
+
+// setup the logger
+app.use(logger('combined', {
+    stream: accessLogStream,
+    skip: function (req, res) { 
+        return !req.headers['user-agent'].includes('OS Version'); 
+    }
+}));
 
 app.use('/api', api_auth);
 app.use('/api', api_shops);
