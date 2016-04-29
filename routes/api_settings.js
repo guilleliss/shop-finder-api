@@ -8,12 +8,12 @@ router.get('/', function(req, res) {
 	
 	var settingsJson = {
 		title: "App Settings",
-		updated : "2016-04-21T18:25:43-05:00",
+		updated : Date.now(),
 		config:{
 			aboutLink: "http://gettappas.com/",
 			faqLink: "http://gettappas.com/",
 			privacyLink: "http://gettappas.com/",
-			appMenuBackgroundImageLink: "http://www.barkalastudios.com/wp-content/uploads/bg.jpg"
+			appMenuBackgroundImageLink: "http://www.barkalastudios.com/wp-content/uploads/2016/04/back.jpg"
 		},
 		style:{
 			navBarTintColor: "#f7947d", 

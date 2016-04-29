@@ -58,7 +58,7 @@ describe('User', function () {
 		.expect('Content-type', /json/)
 		.expect(200)
 		.end(function(err, res) {
-			expect(res.body).to.be.an('object');		
+			expect(res.body).to.be.an('object');
 			expect(res.body).to.have.property('status')
 				.to.equal(500);
 			done();

@@ -30,7 +30,7 @@ describe('Settings', function () {
 			expect(res.body).to.have.property('title')
 				.that.is.a('string');
 			expect(res.body).to.have.property('updated')
-				.that.is.a('string');
+				.that.is.a('number');
 			expect(res.body).to.have.property('config')
 				.that.is.a('object');
 			expect(res.body).to.have.property('style')
