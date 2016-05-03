@@ -34,6 +34,10 @@ app.controller('AppSettingsController', [
 				});
 		};
 
+		$scope.changeMode = function() {
+			$scope.obj.options.mode = $scope.obj.options.mode == 'code' ? 'tree' : 'code' ; //should switch you to code view
+		}
+
 		$scope.getAppSettings();
 
 }]);

@@ -10,5 +10,6 @@ div.container
 			form.form-group
 				div(ng-jsoneditor ng-model="obj.data" options="obj.options" style="height: 500px;")
 				//- textarea.form-control(rows="15" ng-model="appSettings")
-				span.input-group-btn
+				span.input-group-btn.right
+					button.btn.btn-primary(type="button", ng-click="changeMode()") Change mode
 					button.btn.btn-primary(type="button", ng-click="saveAppSettings(obj.data)") Save
