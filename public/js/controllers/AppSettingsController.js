@@ -10,9 +10,7 @@ app.controller('AppSettingsController', [
 			appSettingsService.get()
 				.success(function(data) {
 					console.log(data);
-					// if(data == null) data = {};
-					// $scope.appSettings = JSON.stringify(data.settings, null, 4);;
-					$scope.obj = {data: data.settings, options: { mode: 'tree' , expanded: true}};
+					$scope.obj = {data: data, options: { mode: 'tree' , expanded: true}};
 				})
 				.error(function(err) {
 					console.log(err);
@@ -21,7 +19,6 @@ app.controller('AppSettingsController', [
 
 		$scope.saveAppSettings = function(appSettings) {
 			let settingsJson = appSettings;
-			// let settingsJson = eval("(" + appSettings + ")");
 			appSettingsService.save(settingsJson)
 				.success(function(data) {
 					console.log(data);
@@ -35,7 +32,7 @@ app.controller('AppSettingsController', [
 		};
 
 		$scope.changeMode = function() {
-			$scope.obj.options.mode = $scope.obj.options.mode == 'code' ? 'tree' : 'code' ; //should switch you to code view
+			$scope.obj.options.mode = $scope.obj.options.mode == 'code' ? 'tree' : 'code' ;
 		}
 
 		$scope.getAppSettings();

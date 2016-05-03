@@ -89,7 +89,7 @@ router.get('/', function(req, res) {
 	AppSettings.findOne({}, function(err, appSettings) {
 		if (err) return next(err);
 		// console.log(appSettings)
-		res.json(appSettings);
+		res.json(appSettings.settings);
 	});
 
 });
