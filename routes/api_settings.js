@@ -96,7 +96,6 @@ router.get('/', function(req, res) {
 
 /* Get settings for the client app */
 router.post('/', function(req, res, next) {
-	// AppSettings.update()
 	AppSettings.findOne({}, function(err, appSettings) {
 		if (err) return next(err);
 		if(appSettings != null) {
