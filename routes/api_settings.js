@@ -1,6 +1,11 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
+
+var mongoose = require('mongoose');
+var AppSettings = mongoose.model('AppSettings');
 
 /* Get settings for the client app */
 router.get('/', function(req, res) {
@@ -81,7 +86,35 @@ router.get('/', function(req, res) {
 			]}
 	};
 
-	res.json(settingsJson);
+	AppSettings.findOne({}, function(err, appSettings) {
+		if (err) return next(err);
+		// console.log(appSettings)
+		res.json(appSettings);
+	});
+
+});
+
+/* Get settings for the client app */
+router.post('/', function(req, res, next) {
+	// AppSettings.update()
+	AppSettings.findOne({}, function(err, appSettings) {
+		if (err) return next(err);
+		if(appSettings != null) {
+			appSettings.settings = req.body;
+			appSettings.settings.updated = Date.now();
+			appSettings.save(function(err, data) {
+				res.json(data);
+			});
+		} else {
+			let newSettings = new AppSettings({
+				settings: req.body
+			});
+			newSettings.settings.updated = Date.now();
+			newSettings.save(function(err, data) {
+				res.json(data);
+			});
+		}
+	});
 });
 
 module.exports = router;

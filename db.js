@@ -67,6 +67,10 @@ var City = new Schema({
 	}
 }); 
 
+var AppSettings = new Schema({
+	settings: Object
+}); 
+
 var User = new Schema({
 	name: { 
 		type: String, 
@@ -86,5 +90,6 @@ mongoose.model('Shop', Shop);
 mongoose.model('Review', Review);
 mongoose.model('City', City);
 mongoose.model('User', User);
+mongoose.model('AppSettings', AppSettings);
 
 mongoose.connect(mongourl);

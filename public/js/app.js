@@ -4,7 +4,8 @@ var app = angular.module('shopApp', [
 	'angular-loading-bar',
 	'ngAnimate',
 	'ui.bootstrap',
-	'ngStorage'
+	'ngStorage',
+	'ng.jsoneditor'
 ]);
 
 app.config(['$routeProvider', 
@@ -27,6 +28,10 @@ app.config(['$routeProvider',
 		when('/users', {
 			templateUrl: 'partials/usersView',
 			controller: 'UsersController'
+		}).
+		when('/appsettings', {
+			templateUrl: 'partials/appSettingsView',
+			controller: 'AppSettingsController'
 		}).
 		when('/login', {
 			templateUrl: 'partials/login',

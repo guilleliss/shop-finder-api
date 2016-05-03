@@ -1,0 +1,14 @@
+include ../includes/header.jade
+div.container
+	include ../includes/alerts.jade
+	div.row
+		div.page-header
+			h3 App Settings
+
+	div.row
+		div.col-md-8.col-md-offset-2
+			form.form-group
+				div(ng-jsoneditor ng-model="obj.data" options="obj.options" style="height: 500px;")
+				//- textarea.form-control(rows="15" ng-model="appSettings")
+				span.input-group-btn
+					button.btn.btn-primary(type="button", ng-click="saveAppSettings(obj.data)") Save

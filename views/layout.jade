@@ -6,6 +6,7 @@ html(ng-app="shopApp")
 		base(href='/')
 		title Store Finder Dashboard 
 		link(rel='stylesheet', href='/css/style.css')
+		link(rel='stylesheet', href='/lib/jsoneditor/dist/jsoneditor.min.css')
 		link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap-material.min.css')
 		link(rel='stylesheet', href='/lib/angular-loading-bar/build/loading-bar.min.css')
 	body
@@ -19,6 +20,8 @@ html(ng-app="shopApp")
 	script(src='lib/angular-route/angular-route.min.js')
 	script(src='lib/angular-animate/angular-animate.min.js')
 	script(src='lib/angularjs-google-places/src/angularjs-google-places.js')
+	script(src='lib/jsoneditor/dist/jsoneditor.min.js')
+	script(src='lib/ng-jsoneditor/ng-jsoneditor.js')
 	
 	//- Angular-Bootstrap files
 	//- script(src='lib/angular-bootstrap/ui-bootstrap.min.js')
@@ -38,6 +41,7 @@ html(ng-app="shopApp")
 	script(src='js/services/AuthService.js')
 	script(src='js/services/usersService.js')
 	script(src='js/services/AlertService.js')
+	script(src='js/services/appSettingsService.js')
 	
 	//- Angular controllers
 	script(src='js/controllers/MainController.js')
@@ -47,6 +51,7 @@ html(ng-app="shopApp")
 	script(src='js/controllers/ShopsController.js')
 	script(src='js/controllers/AuthController.js')
 	script(src='js/controllers/UsersController.js')
+	script(src='js/controllers/AppSettingsController.js')
 
 	//- Angular directives
 	script(src='js/directives/shopDetailsDirective.js')

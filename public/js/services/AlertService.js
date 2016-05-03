@@ -30,5 +30,5 @@ app.factory('AlertService', [
 				close: this.close,
 				clear: this.clear
 			};
-	 	}
-	 ]);
+		}
+	]);
