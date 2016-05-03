@@ -105,7 +105,7 @@ router.post('/', function(req, res, next) {
 				res.json(data);
 			});
 		} else {
-			let newSettings = new AppSettings({
+			var newSettings = new AppSettings({
 				settings: req.body
 			});
 			newSettings.settings.updated = Date.now();
