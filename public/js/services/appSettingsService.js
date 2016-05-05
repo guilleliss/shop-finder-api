@@ -3,7 +3,7 @@ app.factory('appSettingsService', [
 	function($http) {
 
 		this.get = function() {
-			return $http.get('/api/settings/')
+			return $http.get('/api/settings/full')
 				.success(function(data) {
 					return data;
 				})
