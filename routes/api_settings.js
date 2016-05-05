@@ -44,8 +44,8 @@ function customFilter(object, result, lang) {
 			} else {
 				object[prop] = object[prop][default_lang];
 			}
-			result.push(object[prop]);
 		}
+		if(object.hasOwnProperty(prop)) result.push(object[prop]);
 	});
 
 	for(var i=0; i< Object.keys(object).length; i++) {

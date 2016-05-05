@@ -21,24 +21,68 @@ describe('Settings', function () {
 		});
 	});
 
-	it('should return a 200 and settings object', function (done) {
+	it('should return a 200 and settings object for client', function (done) {
 		api.get('/settings/')
 		.set({'Accept': 'application/json', 'x-access-token': token})
 		.expect(200)
 		.end(function(err, res) {
 			expect(res.body).to.be.an('object');
-			expect(res.body).to.have.property('settings')
-				.that.is.an('object');
-			// expect(res.body).to.have.property('updated')
-			// 	.that.is.a('number');
-			// expect(res.body).to.have.property('config')
-			// 	.that.is.a('object');
-			// expect(res.body).to.have.property('style')
-			// 	.that.is.a('object');
-			// expect(res.body).to.have.property('share')
-			// 	.that.is.a('object');
-			// expect(res.body).to.have.property('table')
-			// 	.that.is.a('object');
+			expect(res.body).to.have.property('updated')
+				.that.is.a('number');
+			expect(res.body).to.have.property('config')
+				.that.is.a('object');
+			expect(res.body).to.have.property('style')
+				.that.is.a('object');
+			expect(res.body).to.have.property('share')
+				.that.is.a('object');
+			expect(res.body).to.have.property('table')
+				.that.is.a('object');
+			expect(res.body).to.have.property('menu')
+				.that.is.a('object');
+			done();
+		});
+	});
+
+	it('should return a 200 and settings object for client in spanish', function (done) {
+		api.get('/settings?lang=es')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('updated')
+				.that.is.a('number');
+			expect(res.body).to.have.property('config')
+				.that.is.a('object');
+			expect(res.body).to.have.property('style')
+				.that.is.a('object');
+			expect(res.body).to.have.property('share')
+				.that.is.a('object');
+			expect(res.body).to.have.property('table')
+				.that.is.a('object');
+			expect(res.body).to.have.property('menu')
+				.that.is.a('object');
+			done();
+		});
+	});
+
+	it('should return a 200 and settings object for dashboard', function (done) {
+		api.get('/settings/full/')
+		.set({'Accept': 'application/json', 'x-access-token': token})
+		.expect(200)
+		.end(function(err, res) {
+			expect(res.body).to.be.an('object');
+			expect(res.body).to.have.property('updated')
+				.that.is.a('number');
+			expect(res.body).to.have.property('config')
+				.that.is.a('object');
+			expect(res.body).to.have.property('style')
+				.that.is.a('object');
+			expect(res.body).to.have.property('share')
+				.that.is.a('object');
+			expect(res.body).to.have.property('table')
+				.that.is.a('object');
+			expect(res.body).to.have.property('menu')
+				.that.is.a('object');
 			done();
 		});
 	});
