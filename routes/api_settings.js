@@ -15,7 +15,6 @@ router.get('/', function(req, res) {
 		var lang = 'en';
 		if(req.query.lang) {
 			lang = req.query.lang;
-			// console.log(lang);
 		}
 
 		var result = [];
@@ -36,17 +35,18 @@ router.get('/full', function(req, res) {
 });
 
 function customFilter(object, result, lang) {
-	if(object.hasOwnProperty('title') && typeof object.title == 'object') {
-		if(object.title.hasOwnProperty(lang)) {
-			object.title = object.title[lang];
+	var default_lang = 'en';
+
+	['title', 'appShareMessage'].forEach(function(prop, i, a) {
+		if(object.hasOwnProperty(prop) && typeof object[prop] == 'object') {
+			if(object[prop].hasOwnProperty(lang)) {
+				object[prop] = object[prop][lang];
+			} else {
+				object[prop] = object[prop][default_lang];
+			}
+			result.push(object[prop]);
 		}
-		result.push(object.title);
-	} else if(object.hasOwnProperty('appShareMessage') && typeof object.appShareMessage == 'object') {
-		if(object.appShareMessage.hasOwnProperty(lang)) {
-			object.appShareMessage = object.appShareMessage[lang];
-		}
-		result.push(object.appShareMessage);
-	}
+	});
 
 	for(var i=0; i< Object.keys(object).length; i++) {
 		if(typeof object[Object.keys(object)[i]] == "object") {
