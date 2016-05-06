@@ -35,24 +35,37 @@ router.get('/full', function(req, res) {
 });
 
 function customFilter(object, result, lang) {
-	var default_lang = 'en';
-
 	['title', 'appShareMessage'].forEach(function(prop, i, a) {
-		if(object.hasOwnProperty(prop) && typeof object[prop] == 'object') {
-			if(object[prop].hasOwnProperty(lang)) {
-				object[prop] = object[prop][lang];
-			} else {
-				object[prop] = object[prop][default_lang];
-			}
+		if(object.hasOwnProperty(prop)) {
+			object[prop] = filterLangObject(object[prop], lang);
+			result.push(object[prop]);
 		}
-		if(object.hasOwnProperty(prop)) result.push(object[prop]);
 	});
 
-	for(var i=0; i< Object.keys(object).length; i++) {
-		if(typeof object[Object.keys(object)[i]] == "object") {
-			customFilter(object[Object.keys(object)[i]], result, lang);
+	var keyRegex = /^str_/;
+
+	for(var key in object) {
+		if(typeof object[key] == "object") {
+			if (key.match(keyRegex)) {
+				object[key] = filterLangObject(object[key], lang);
+				result.push(object[key]);
+			} else {
+				customFilter(object[key], result, lang);
+			}
 		}
 	}
+}
+
+function filterLangObject(stringObject, lang) {
+	var default_lang = 'en';
+	if(typeof stringObject == "object") {
+		if(stringObject.hasOwnProperty(lang)) {
+			stringObject = stringObject[lang];
+		} else {
+			stringObject = stringObject[default_lang];
+		}
+	}
+	return stringObject;
 }
 
 /* Get settings for the client app */
