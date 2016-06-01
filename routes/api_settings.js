@@ -35,7 +35,7 @@ router.get('/full', function(req, res) {
 });
 
 function customFilter(object, result, lang) {
-	['title', 'appShareMessage', 'data'].forEach(function(prop, i, a) {
+	['title', 'appShareMessage'].forEach(function(prop, i, a) {
 		if(object.hasOwnProperty(prop)) {
 			object[prop] = filterLangObject(object[prop], lang);
 			result.push(object[prop]);
