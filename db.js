@@ -41,8 +41,8 @@ var Shop = new Schema({
 	geolocation: Object,
 	hidden: { type: Boolean, default: 0 },
 	source: String,
-	source_id: { 
-		type: String, 
+	source_id: {
+		type: String,
 		unique: true,
 		dropDups: true
 	},
@@ -60,26 +60,26 @@ var Review = new Schema({
 });
 
 var City = new Schema({
-	name: { 
-		type: String, 
+	name: {
+		type: String,
 		unique: true,
 		dropDups: true
 	}
-}); 
+});
 
 var AppSettings = new Schema({
 	settings: Object
-}); 
+});
 
 var User = new Schema({
-	name: { 
-		type: String, 
+	name: {
+		type: String,
 		unique: true,
 		dropDups: true
 	},
 	password: String,
-	email: { 
-		type: String, 
+	email: {
+		type: String,
 		unique: true,
 		dropDups: true
 	},

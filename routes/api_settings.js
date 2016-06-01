@@ -35,7 +35,7 @@ router.get('/full', function(req, res) {
 });
 
 function customFilter(object, result, lang) {
-	['title', 'appShareMessage'].forEach(function(prop, i, a) {
+	['title', 'appShareMessage', 'data'].forEach(function(prop, i, a) {
 		if(object.hasOwnProperty(prop)) {
 			object[prop] = filterLangObject(object[prop], lang);
 			result.push(object[prop]);
@@ -68,7 +68,7 @@ function filterLangObject(stringObject, lang) {
 	return stringObject;
 }
 
-/* Get settings for the client app */
+/* Save settings */
 router.post('/', function(req, res, next) {
 	AppSettings.findOne({}, function(err, appSettings) {
 		if (err) return next(err);
