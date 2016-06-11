@@ -16,17 +16,36 @@ router.get('/', function(req, res) {
 
 /* Get a list of all shops */
 router.get('/shops', function(req, res) {
-	Shop.find({}, function (err, data) {
-		if (err) return console.error(err);
-		var retShops = [];
-		for (var i = 0; i < data.length; i++) {
-			if (data[i]["opening_hours"] && data[i]["opening_hours"]["periods"]) {
-				delete data[i]["opening_hours"]["periods"];
-			}
-			retShops.push(data[i]);
-		};
-		res.json(retShops);
-	});
+
+	var latitude = req.query.latitude;
+	var longitude = req.query.longitude;
+	var precision = req.query.precision;
+
+	if(latitude && longitude) {
+		var hashString = encodeCoords({lat: latitude, lng: longitude});
+		console.log('geohash: ' + hashString);
+		var retShops = findShopsForLocation(hashString, precision, function(shops) {
+			// console.log(shops.length);
+			res.json(shops);
+		});
+	} else {
+		Shop.find({}, function (err, data) {
+			console.log(data.length);
+			if (err) return console.error(err);
+			var retShops = [];
+			for (var i = 0; i < data.length; i++) {
+				if (data[i]["opening_hours"] && data[i]["opening_hours"]["periods"]) {
+					delete data[i]["opening_hours"]["periods"];
+				}
+				retShops.push(data[i]);
+			};
+			// data.forEach( function(shop, index) {
+			// 	shop.geohash = shop.geolocation.geohash;
+			// 	shop.save();
+			// });
+			res.json(retShops);
+		});
+	}
 });
 
 /* Save a new shop, and its reviews */
@@ -73,6 +92,7 @@ function saveNewShop(shop_info, newShop) {
 			geohash: geohash,
 			location: shop_info.geometry.location
 		};
+	newShop.geohash = geohash;
 	newShop.hidden = shop_info.permanently_closed;
 	newShop.source = shop_info.source;
 	newShop.source_id = shop_info.place_id ? shop_info.place_id : shop_info.source_id;
@@ -205,7 +225,6 @@ router.get('/updateData', function(req, res, next) {
 					// We save new reviews
 					retrieveNewReviews(shop, details.result);
 
-
 					// We bring the new number of reviews
 					var new_reviews_count = 0;
 
@@ -319,6 +338,29 @@ function getLocality(shop) {
 		});
 		return shopCity;
 	}
+}
+
+/**
+ * Given a hashstring and a precision, finds all shops
+ * for the coordante represented by the hashstring and
+ * all its neighbors. 
+ */
+function findShopsForLocation(hashstring, precision, callback) {
+
+	// Sets the precision of the hashstring.
+	var wrapSquare = hashstring.substring(0, precision);	
+	var centerSquare = hashstring.substring(0, precision);
+
+	console.log(wrapSquare);
+
+	// Get the 8 neighbors of that box, along with the original box
+	// let neighborsHashstrings = geohash.neighbors(wrapSquare);
+	// neighborsHashstrings.push(wrapSquare);
+
+	Shop.find( { geohash: { $regex: wrapSquare + '.*'} }, function( err, shops, count ) {
+		if(err) console.log(err);
+		callback(shops);
+	});
 }
 
 /**

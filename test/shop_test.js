@@ -50,7 +50,6 @@ describe('Shop', function () {
 					lat: 0,
 					lng: 0,
 				},
-				geohash: 'testhash'
 			},
 			source: "Google",
 			source_id: 'Test source id',
@@ -96,7 +95,6 @@ describe('Shop', function () {
 					lat: 0,
 					lng: 0,
 				},
-				geohash: 'testhash'
 			},
 			source: "Google",
 			source_id: 'Test source id',
@@ -153,8 +151,9 @@ describe('Shop', function () {
 				.that.is.an('array');
 			expect(res.body).to.have.property('geolocation')
 				.that.is.an('object')
-				.to.include.keys('geohash')
 				.to.include.keys('location');
+			expect(res.body).to.have.property('geohash')
+				.that.is.an('string')
 			expect(res.body).to.have.property('source')
 				.that.is.a('string');
 			expect(res.body).to.have.property('source_id')

@@ -39,6 +39,7 @@ var Shop = new Schema({
 	website: String,
 	photos: Array,
 	geolocation: Object,
+	geohash: String,
 	hidden: { type: Boolean, default: 0 },
 	source: String,
 	source_id: {
