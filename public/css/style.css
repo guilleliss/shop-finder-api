@@ -190,3 +190,12 @@ span.shop-details-title {
   /*bottom:-3000px;*/
   display: none;
 }
+
+/* Users */
+.newUserPanel {
+	background: white;
+	position: absolute;
+	width: 400px;
+	top: 100px;
+	left: 35%;
+}

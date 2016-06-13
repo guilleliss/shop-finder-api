@@ -23,6 +23,7 @@ app.factory('usersService', ['$http', function($http) {
 	};
 
 	this.createUser = function(formData) {
+		console.log(formData);
 		return $http.post('/api/users/', formData)
 			.success(function(data) {
 				return data;
@@ -44,8 +45,8 @@ app.factory('usersService', ['$http', function($http) {
 	// 		});
 	// };
 
-	this.deleteUser = function(id) {
-		return $http.delete('/api/users/' + id)
+	this.deleteUser = function(user) {
+		return $http.delete('/api/users/' + user._id)
 			.success(function(data) {
 				return data;
 			})

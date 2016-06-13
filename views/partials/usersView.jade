@@ -23,5 +23,25 @@ div.container(ng-controller='MainController')
 						td {{ user.email }}
 						td {{ user.admin }}
 						td 
-							span.glyphicon.glyphicon-edit
-							span.glyphicon.glyphicon-trash
+							div.btn-group
+								button.btn.btn-primary(ng-click="editUser(user)")
+									span.glyphicon.glyphicon-edit
+								button.btn.btn-primary(ng-click="deleteUser(user)")
+									span.glyphicon.glyphicon-trash
+
+	div.panel.panel-primary.newUserPanel(ng-show="!formCollapsed")
+		div.panel-heading New user
+		div.panel-body
+			form(style="max-width: 400px; margin: auto")
+				label(for="username") Username
+				input.form-control(type="text", name="username", ng-model="newUser.name")
+				label(for="email") Email
+				input.form-control(type="email", name="email", ng-model="newUser.email")
+				label(for="password") Password
+				input.form-control(type="password", name="password", ng-model="newUser.password")
+				label(for="repeat") Repeat password
+				input.form-control(type="password", name="repeat", ng-model="newUser.repeat")
+				label(for="isAdmin") Is admin?
+				input.form-control(type="checkbox", name="isAdmin", ng-model="newUser.admin")
+				button.btn.btn-primary.pull-right(ng-click="saveNewUser(newUser)") Save
+
