@@ -7,8 +7,8 @@ API for mobile app Shop Finder. It includes the API itself and an `angularjs` da
 
 Requires [mongoDB](https://www.mongodb.org/).
 
-	$ git clone https://github.com/guilleliss/shop-finder-api path/to/proyect/
-	$ cd path/to/proyect/
+	$ git clone https://github.com/guilleliss/shop-finder-api path/to/project/
+	$ cd path/to/project/
 	$ npm install
 	$ npm start
 
