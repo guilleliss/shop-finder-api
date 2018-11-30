@@ -18,7 +18,7 @@ Then point the browser to `http://localhost:3000`.
 
 Only API tests at the moment
 
-	$ cd path/to/proyect/
+	$ cd path/to/project/
 	$ npm test
 
 ## Improvements
