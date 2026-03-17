@@ -3,8 +3,6 @@ services:
     build: .
     container_name: app
     restart: on-failure
-    ports:
-      - "3000:3000"
     depends_on:
       mongo:
         condition: service_healthy
