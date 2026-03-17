@@ -51,6 +51,36 @@ router.post('/authenticate', function(req, res) {
 
 });
 
+/* First-time setup: only works when no users exist */
+router.get('/setup', function(req, res) {
+    User.count({}, function(err, count) {
+        if (err) return res.status(500).json({ success: false, message: 'Database error.' });
+        if (count > 0) return res.status(403).json({ success: false, message: 'Setup already completed.' });
+
+        // if (!req.body.name || !req.body.password || !req.body.email) {
+        //     return res.status(400).json({ success: false, message: 'name, password and email are required.' });
+        // }
+
+        var admin = new User({
+            name: 'admin',
+            password: passwordHash.generate('admin'),
+            email: 'admin@example.com',
+            admin: true
+        });
+
+        admin.save(function(err) {
+            if (err) return res.status(500).json({ success: false, message: 'Failed to create user.', error: err });
+            res.json({ success: true, message: 'Admin user created.' });
+        });
+    });
+});
+
+/* Api starting point */
+router.get('/', function(req, res) {
+	res.json({ message: 'Welcome to the api' });
+});
+
+
 /* Middleware for authentication */
 router.use(function(req, res, next) {
 	// check header or url parameters or post parameters for token
@@ -75,11 +105,6 @@ router.use(function(req, res, next) {
 			message: 'No token provided.' 
 		});
 	}
-});
-
-/* Api starting point */
-router.get('/', function(req, res) {
-	res.json({ message: 'Welcome to the api' });
 });
 
 /* Get a list of all shops */

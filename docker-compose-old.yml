@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  reverse-proxy:
+    image: traefik:1.7.2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/traefik.toml:/traefik.toml
+      - $PWD/acme.json:/acme.json
+    labels:
+      - traefik.frontend.rule=Host:monitor.tappasapi.smokingpot.dev
+      - traefik.port=8080
+    networks:
+      - web
+    container_name: traefik
+  app:
+    container_name: app
+    image: guilleliss/shopfinder-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_HOST=mongodb://mongo:27017/
+      - MONGODB_USER=tappas
+      - MONGODB_PASS=QhMXGufWuVX7C5BA
+      - MONGODB_DATABASE=tappas
+    networks:
+      - web
+      - internal
+    labels:
+      - traefik.backend=app
+      - traefik.frontend.rule=Host:tappasapi.smokingpot.dev
+      - traefik.docker.network=web
+      - traefik.port=3000
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db'
+      - ./mongo_scripts/:/docker-entrypoint-initdb.d
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=guille
+      - MONGO_INITDB_ROOT_PASSWORD=mKAnRWHUdhyrqvW25pNeZjuj6UdeDP
+      - MONGO_INITDB_DATABASE=tappas
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false

@@ -1,31 +1,4 @@
-var mongourl = 'mongodb://localhost/shop-finder';
-
-if(process.env.VCAP_SERVICES){
-	var env = JSON.parse(process.env.VCAP_SERVICES);
-	var mongo = env['mongodb-1.8'][0]['credentials'];
-
-	var generate_mongo_url = function(obj) {
-		obj.hostname = (obj.hostname || 'localhost');
-		obj.port = (obj.port || 27017);
-		obj.db = (obj.db || 'test');
-		if(obj.username && obj.password){
-			return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
-		}
-		else {
-			return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
-		}
-	}
-	mongourl = generate_mongo_url(mongo);
-}
-
-// if OPENSHIFT env variables are present, use the available connection info:
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-	mongourl = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-	process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-	process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-	process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-	process.env.OPENSHIFT_APP_NAME;
-}
+var mongourl = process.env.MONGODB_URI || 'mongodb://localhost/shop-finder';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -88,3 +61,8 @@ mongoose.model('City', City);
 mongoose.model('User', User);
 
 mongoose.connect(mongourl);
+
+mongoose.connection.on('error', function(err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+});

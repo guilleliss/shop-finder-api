@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: app
+    restart: on-failure
+    ports:
+      - "8080:3000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASS}@mongo:27017/${MONGODB_DATABASE}?authSource=admin
+      - PORT=3000
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.4
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASS}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mongo",
+          "--eval",
+          "db.adminCommand('ping')",
+          "-u",
+          "${MONGODB_USER}",
+          "-p",
+          "${MONGODB_PASS}",
+          "--authenticationDatabase",
+          "admin",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  mongo_data:
