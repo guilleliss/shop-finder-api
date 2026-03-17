@@ -33,10 +33,10 @@ services:
           "--authenticationDatabase",
           "admin",
         ]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
+      interval: 3600s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
 volumes:
   mongo_data:
