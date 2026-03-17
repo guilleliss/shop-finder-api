@@ -4,7 +4,7 @@ services:
     container_name: app
     restart: on-failure
     ports:
-      - "8080:3000"
+      - "3000:3000"
     depends_on:
       mongo:
         condition: service_healthy
