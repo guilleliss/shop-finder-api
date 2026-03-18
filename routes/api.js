@@ -576,9 +576,6 @@ function encodeCoords(location) {
 
 /* TODO: Remove all from here */
 var GoogleLocations = require('google-locations');
-var locations = new GoogleLocations('AIzaSyDDH78oK3DLTs9G1xfH798jO-5ok2FUvFQ');
-// var GooglePlaces = require('google-places');
-// var places = new GooglePlaces('AIzaSyDDH78oK3DLTs9G1xfH798jO-5ok2FUvFQ');
-// var places = new GooglePlaces('AIzaSyCAPKkCs0gnsuZia_W_d7oZn8hx-xkJGW0');
+var locations = new GoogleLocations(process.env.GOOGLE_PLACES_API_KEY);
 
 module.exports = router;
