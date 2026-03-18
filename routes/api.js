@@ -35,7 +35,7 @@ router.post('/authenticate', function(req, res) {
 			} else {
 				// if user is found and password is right
 				// create a token
-				var token = jwt.sign(user, req.app.get('superSecret'), {
+				var token = jwt.sign(user, req.app.get(process.env.AUTH_SECRET), {
 				  expiresIn: 86400 // expires in 24 hours
 				});
 
@@ -89,7 +89,7 @@ router.use(function(req, res, next) {
 	// decode token
 	if (token) {
 		// verifies secret and checks exp
-		jwt.verify(token, req.app.get('superSecret'), function(err, decoded) {      
+		jwt.verify(token, req.app.get(process.env.AUTH_SECRET), function(err, decoded) {      
 			if (err) {
 				return res.json({ success: false, message: 'Failed to authenticate token.' });    
 			} else {

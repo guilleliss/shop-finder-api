@@ -12,7 +12,7 @@ var dashboard = require('./routes/dashboard');
 
 var app = express();
 
-app.set('superSecret', 'barkalastudios');
+app.set(process.env.AUTH_SECRET, 'barkalastudios');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
